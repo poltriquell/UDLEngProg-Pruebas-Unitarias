@@ -25,6 +25,7 @@ final public class Nif {
         if (code == null) throw new NullPointerException("NIF cannot be null");
         if (code.length() != 9) throw new IllegalArgumentException("NIF must be 9 characters long");
         if (!correctNIF(code)) throw new IllegalArgumentException("Incorrect NIF format, check it again, remember 8 numbers and 1 capital letter");
+        if (!correctNIF(code)) throw new IllegalArgumentException("Incorrect NIF format, must be 8 digits and 1 capital letter");
     }
     private boolean correctNIF (String code) { //Check if the NIF is in the correct format, not checking NIE
         char[] nif = code.toCharArray();
