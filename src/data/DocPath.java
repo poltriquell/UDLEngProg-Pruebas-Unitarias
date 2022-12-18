@@ -2,7 +2,6 @@ package data;
 
 final public class DocPath {
     //Path to the directory where the documents are stored
-
     private final String path;
 
     public DocPath(String path) {
