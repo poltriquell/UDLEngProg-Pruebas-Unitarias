@@ -1,6 +1,5 @@
 package data;
 
-
 final public class Nif {
 
     // The tax identification number in the Spanish state.

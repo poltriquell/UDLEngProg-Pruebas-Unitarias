@@ -1,0 +1,44 @@
+package data;
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+public class SmallCodeTest {
+    @Test
+    public void getSmallCodeTest() {
+        SmallCode smallCode = new SmallCode("598");
+        String correctSmallCode = "598";
+        assertEquals(correctSmallCode, smallCode.getSmallCode());
+    }
+
+    @Test
+    public void nullSmallCodeTest(){
+        NullPointerException nullException = assertThrows(NullPointerException.class, () -> new SmallCode(null));
+        assertEquals("Small Code cannot be null.", nullException.getMessage());
+    }
+
+    @Test
+    public void shortSmallCode() {
+        IllegalArgumentException shortException = assertThrows(IllegalArgumentException.class, () -> new SmallCode("13"));
+        assertEquals("Small Code must be 3 characters long.", shortException.getMessage());
+    }
+
+    @Test
+    public void longSmallCode() {
+        IllegalArgumentException longException = assertThrows(IllegalArgumentException.class, () -> new SmallCode("3589"));
+        assertEquals("Small Code must be 3 characters long.", longException.getMessage());
+    }
+
+    @Test
+    public void incorrectSmallCode() {
+        IllegalArgumentException incorrectException = assertThrows(IllegalArgumentException.class, () -> new SmallCode("53f"));
+        assertEquals("Incorrect SmallCode format. Cannot contain non-digit characters. Remember that it must be 3 characters long.", incorrectException.getMessage());
+    }
+
+    @Test
+    public void correctSmallCode() {
+        assertDoesNotThrow(() -> new SmallCode("598"));
+    }
+
+}
