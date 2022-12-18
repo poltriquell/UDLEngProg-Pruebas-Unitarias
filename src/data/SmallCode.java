@@ -38,8 +38,14 @@ final public class SmallCode {
         return smallCode.hashCode();
     }
 
+    public String getSmallCode() {
+        return smallCode;
+    }
+
     @Override
     public String toString() {
         return "Small Code{}"; //Falta completar el mètode
     }
+
+
 }
