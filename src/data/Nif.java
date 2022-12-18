@@ -44,7 +44,7 @@ final public class Nif {
             sum += Character.getNumericValue(nif[i]);
         }
 
-        int residue = sum % 23;
+        int residue = sum % 23; //Used to check a letter
         char[] validLetters = {'T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X', 'B', 'N', 'J', 'Z', 'S', 'Q', 'V', 'H', 'L', 'C', 'K', 'E'};
         return Character.isUpperCase(nif[8]) && nif[8] == validLetters[residue];
     }
