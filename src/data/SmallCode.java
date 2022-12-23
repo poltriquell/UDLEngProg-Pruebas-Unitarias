@@ -44,7 +44,7 @@ final public class SmallCode {
 
     @Override
     public String toString() {
-        return "Small Code{}"; //Falta completar el mètode
+        return "SmallCode{" + "smallCode='" + smallCode + '\'' + '}';
     }
 
 
