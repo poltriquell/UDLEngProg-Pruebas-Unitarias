@@ -9,8 +9,7 @@ public class PasswordTest {
 
     @Test
     public void nullPasswordTest() {
-        assertThrows(WrongPasswordFormatException.class,
-                () -> new Password(null));
+        assertThrows(NullPointerException.class, () -> new Password(null));
     }
 
     @Test
@@ -45,7 +44,7 @@ public class PasswordTest {
 
     @Test
     public void getPasswordTest() throws WrongPasswordFormatException {
-        Password password = new Password("Password1234");
-        assertEquals("PassWord1234%", password.getPassword());
+        Password password = new Password("Password1234%");
+        assertEquals("Password1234%", password.getPassword());
     }
 }
