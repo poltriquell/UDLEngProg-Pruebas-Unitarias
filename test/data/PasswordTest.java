@@ -1,21 +1,51 @@
 package data;
 
-import exceptions.WrongPasswordFormatException;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import exceptions.*;
+import org.junit.jupiter.api.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PasswordTest {
-    Password password;
 
-    @BeforeEach
-    public void setUp() throws WrongPasswordFormatException {
-        password = new Password("PassWord1234%");
+    @Test
+    public void nullPasswordTest() {
+        assertThrows(WrongPasswordFormatException.class,
+                () -> new Password(null));
     }
 
     @Test
-    public void getPasswordTest() {
+    public void shortPasswordTest() {
+        assertThrows(WrongPasswordFormatException.class,
+                () -> new Password("123"));
+    }
+
+    @Test
+    public void noDigitPasswordTest() {
+        assertThrows(WrongPasswordFormatException.class,
+                () -> new Password("Password"));
+    }
+
+    @Test
+    public void noCharPasswordTest() {
+        assertThrows(WrongPasswordFormatException.class,
+                () -> new Password(")(&%$#"));
+    }
+
+    @Test
+    public void noCapitalLetterPasswordTest() {
+        assertThrows(WrongPasswordFormatException.class,
+                () -> new Password("password1234"));
+    }
+
+    @Test
+    public void noSpecialCharPasswordTest() {
+        assertThrows(WrongPasswordFormatException.class,
+                () -> new Password("Password1234"));
+    }
+
+    @Test
+    public void getPasswordTest() throws WrongPasswordFormatException {
+        Password password = new Password("Password1234");
         assertEquals("PassWord1234%", password.getPassword());
     }
 }
