@@ -1,11 +1,13 @@
 package data;
 
+import exceptions.WrongNifFormatException;
+
 final public class Nif {
 
     // The tax identification number in the Spanish state.
     private final String nif;
 
-    public Nif (String code) {
+    public Nif (String code) throws WrongNifFormatException {
         checkValidNIF(code);
         this.nif = code;
     }
@@ -28,10 +30,10 @@ final public class Nif {
         return "Nif{" + "nif ciudadano='" + nif + '\'' + '}';
     }
 
-    private void checkValidNIF (String code) {
+    private void checkValidNIF (String code) throws WrongNifFormatException {
         if (code == null) throw new NullPointerException("NIF cannot be null");
-        if (code.length() != 9) throw new IllegalArgumentException("NIF must be 9 characters long");
-        if (!correctNIF(code)) throw new IllegalArgumentException("Incorrect NIF format, check it again, remember 8 numbers and 1 capital letter");
+        if (code.length() != 9) throw new WrongNifFormatException("NIF must be 9 characters long");
+        if (!correctNIF(code)) throw new WrongNifFormatException("Incorrect NIF format, check it again, remember 8 numbers and 1 capital letter");
     }
 
     private boolean correctNIF(String code) { //Check if the NIF is in the correct format, not checking NIE
