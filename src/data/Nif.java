@@ -42,10 +42,11 @@ final public class Nif {
 
         for (int i = 0; i < 8; i++) {
             if (!Character.isDigit(nif[i])) return false;
-            sum += Character.getNumericValue(nif[i]);
         }
 
-        int residue = sum % 23; //Used to check a letter
+        int DNInum = Integer.parseInt(code.substring(0, 8)); //We take the numeric part to calculate the letter
+
+        int residue = DNInum % 23; //Used to check a letter
         char[] validLetters = {'T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X', 'B', 'N', 'J', 'Z', 'S', 'Q', 'V', 'H', 'L', 'C', 'K', 'E'};
         return Character.isUpperCase(nif[8]) && nif[8] == validLetters[residue];
     }
