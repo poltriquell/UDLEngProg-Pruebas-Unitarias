@@ -1,6 +1,6 @@
 package services;
 
-import Controller.Citizen;
+import controller.Citizen;
 import data.*;
 import publicadministration.exceptions.DigitalSignatureException;
 
