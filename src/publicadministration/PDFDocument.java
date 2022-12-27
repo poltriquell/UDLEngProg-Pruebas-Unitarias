@@ -37,7 +37,6 @@ public class PDFDocument {
         Path initialPath = Paths.get(path.getPath());
         Path finalPath = Paths.get(defaultDocPath);
 
-
         Files.move(initialPath, finalPath, REPLACE_EXISTING);
         System.out.println("The document has been moved from " + path + " to " + destPath);
         path = destPath;
