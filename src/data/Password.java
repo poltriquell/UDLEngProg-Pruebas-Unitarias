@@ -82,7 +82,7 @@ final public class Password {
 
     @Override
     public String toString() {
-        return "Password{" + "Cityzen Password='" + password + '\'' + '}';
+        return "Password{" + "Citizen Password='" + password + '\'' + '}';
     }
 
 }
