@@ -1,14 +1,3 @@
-# Pràctica proves unitaries
-
-## Feta per:
-    -Alexandru Cristian Stoia
-    -Enric Tobeña Casanovas
-    -Pol Triquell Lombardo
-
-## Descripció
-Pràctica d'Enginyeria del programari sobre proves unitaries.
-Utilitzant la llibreria JUnit 5 per els tests unitaris.
-
 # Pràctica 3 sobre Proves Unitàries
 
 ## Autors ✒️
@@ -24,3 +13,5 @@ També pots mirar la llista de tots els [contribuents](https://github.com/your/p
 ## Descripció
 Pràctica d'Enginyeria del programari sobre proves unitaries.
 Utilitzant la llibreria JUnit 5 pels tests unitaris.
+
+
