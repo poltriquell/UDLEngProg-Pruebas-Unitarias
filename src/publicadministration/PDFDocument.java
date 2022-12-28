@@ -49,4 +49,20 @@ public class PDFDocument {
         File file = new File(path.getPath());
         Desktop.getDesktop().open(file);
     }
+
+    public Date getCreatDate() {
+        return creatDate;
+    }
+
+    public DocPath getPath() {
+        return path;
+    }
+
+    public File getFile() {
+        return file;
+    }
+
+    public String getDefaultDocPath() {
+        return defaultDocPath;
+    }
 }

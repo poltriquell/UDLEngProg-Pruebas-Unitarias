@@ -1,5 +1,6 @@
 package publicadministration;
 
+import exceptions.WrongNifFormatException;
 import org.junit.jupiter.api.Test;
 import publicadministration.exceptions.WrongMobileFormatException;
 
@@ -8,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CitizenTest {
 
     @Test
-    public void getCitizenTest() throws WrongMobileFormatException {
+    public void getCitizenTest() throws WrongMobileFormatException, WrongNifFormatException {
         Citizen citizen = new Citizen("Alex Stoia", "C/ Cervantes, 17", "600000000");
         String name = "Alex Stoia";
         String address = "C/ Cervantes, 17";
