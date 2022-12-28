@@ -1,18 +1,20 @@
 package data;
 
+import exceptions.WrongSmallCodeFormatException;
+
 final public class SmallCode {
 
     private final String smallCode;
 
-    public SmallCode(String smallCode) {
+    public SmallCode(String smallCode) throws WrongSmallCodeFormatException {
         checkValidSmallCode(smallCode);
         this.smallCode = smallCode;
     }
 
-    private void checkValidSmallCode(String smallCode) {
+    private void checkValidSmallCode(String smallCode) throws WrongSmallCodeFormatException {
         if (smallCode == null) throw new NullPointerException("Small Code cannot be null.");
-        if (smallCode.length() != 3) throw new IllegalArgumentException("Small Code must be 3 characters long.");
-        if (wrongSmallCodeFormat(smallCode)) throw new IllegalArgumentException("Incorrect SmallCode format. Cannot contain non-digit characters. Remember that it must be 3 characters long.");
+        if (smallCode.length() != 3) throw new WrongSmallCodeFormatException("Small Code must be 3 characters long.");
+        if (wrongSmallCodeFormat(smallCode)) throw new WrongSmallCodeFormatException("Incorrect SmallCode format. Cannot contain non-digit characters. Remember that it must be 3 characters long.");
     }
 
     private boolean wrongSmallCodeFormat(String smallCode) {
@@ -44,7 +46,7 @@ final public class SmallCode {
 
     @Override
     public String toString() {
-        return "Small Code{}"; //Falta completar el mètode
+        return "SmallCode{" + "smallCode='" + smallCode + '\'' + '}';
     }
 
 
