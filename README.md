@@ -8,8 +8,6 @@ _Fem menció a tots aquells que ens han ajudat a tirar el projecte endavant des 
 * **Enric Tobeña Casanovas** - *Treball Inicial i Implementació del Projecte* - [Enric-Tobena](https://github.com/Enric-Tobena)
 * **Pol Triquell Lombardo** - *Treball Inicial i Documentació* - [poltriquell](https://github.com/poltriquell)
 
-També pots mirar la llista de tots els [contribuents](https://github.com/your/project/contributors) els quals han participat al projecte.
-
 ## Descripció
 Pràctica d'Enginyeria del programari sobre proves unitaries.
 Utilitzant la llibreria JUnit 5 pels tests unitaris.
