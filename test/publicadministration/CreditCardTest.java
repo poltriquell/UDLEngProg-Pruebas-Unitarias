@@ -1,7 +1,9 @@
 package publicadministration;
-/*
+
 import data.Nif;
 import data.SmallCode;
+import exceptions.WrongNifFormatException;
+import exceptions.WrongSmallCodeFormatException;
 import org.junit.jupiter.api.Test;
 import publicadministration.exceptions.WrongCreditCardFormatException;
 import services.exceptions.NotValidPaymentDataException;
@@ -15,8 +17,11 @@ public class CreditCardTest {
     private final Nif defaultNif = new Nif("81871430D");
     private final SmallCode defaultSvc = new SmallCode("343");
 
+    public CreditCardTest() throws WrongNifFormatException, WrongSmallCodeFormatException {
+    }
+
     @Test
-    public void getCreditCardTest() throws NotValidPaymentDataException, WrongCreditCardFormatException {
+    public void getCreditCardTest() throws NotValidPaymentDataException, WrongCreditCardFormatException, WrongNifFormatException, WrongSmallCodeFormatException {
         CreditCard crCd = new CreditCard(defaultNif, "1111222233334444", LocalDate.of(2023, 2, 25), defaultSvc);
         Nif nif = new Nif("81871430D");
         String cNum = "1111222233334444";
@@ -69,4 +74,4 @@ public class CreditCardTest {
     public void correctCardTest() {
         assertDoesNotThrow(() -> new CreditCard(defaultNif, "1111222233334444", LocalDate.of(2025, 10, 12), defaultSvc));
     }
-}*/
+}
