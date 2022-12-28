@@ -1,6 +1,7 @@
 package data;
 
 final public class DigitalSignature {
+
     private final byte[] signature;
 
     public DigitalSignature(byte[] signature) {
