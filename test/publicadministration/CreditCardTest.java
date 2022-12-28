@@ -14,10 +14,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class CreditCardTest {
 
-    private final Nif defaultNif = new Nif("81871430D");
-    private final SmallCode defaultSvc = new SmallCode("343");
+    private final Nif defaultNif;
+    private final SmallCode defaultSvc;
 
     public CreditCardTest() throws WrongNifFormatException, WrongSmallCodeFormatException {
+        this.defaultNif = new Nif("81871430D");
+        this.defaultSvc = new SmallCode("343");
     }
 
     @Test
