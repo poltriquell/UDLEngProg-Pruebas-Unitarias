@@ -13,5 +13,5 @@ public interface CertificationAuthority {
 
     boolean checkPIN(Nif nif, SmallCode pin) throws NotValidPINException, ConnectException;
 
-    byte ckeckCredent (Nif nif, Password passw) throws NifNotRegisteredException, NotValidCredException, AnyMobileRegisteredException, ConnectException;
+    //byte ckeckCredent (Nif nif, Password passw) throws NifNotRegisteredException, NotValidCredException, AnyMobileRegisteredException, ConnectException;
 }

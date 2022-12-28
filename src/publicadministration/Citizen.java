@@ -1,6 +1,7 @@
 package publicadministration;
 
 import data.Nif;
+import exceptions.WrongNifFormatException;
 import publicadministration.exceptions.WrongMobileFormatException;
 
 public class Citizen {
@@ -10,7 +11,7 @@ public class Citizen {
     private String address;
     private String mobileNumb;
 
-    public Citizen(String name, String add, String mobile) throws WrongMobileFormatException {
+    public Citizen(String name, String add, String mobile) throws WrongMobileFormatException, WrongNifFormatException {
         checkValidCitizen(name, add, mobile);
         this.nif = new Nif("81871430D");
         this.name = name;

@@ -1,3 +1,4 @@
+/*
 package citizenmanagementplatform;
 
 import Controller.Citizen;
@@ -36,3 +37,4 @@ public interface UnifiedPlatformInterface {
     void openDocument (DocPath path) throws BadPathException;
     void printDocument (DocPath path) throws BadPathException, PrintingException;
 }
+*/

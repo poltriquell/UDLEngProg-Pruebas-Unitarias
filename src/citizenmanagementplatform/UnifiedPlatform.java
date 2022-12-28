@@ -1,3 +1,4 @@
+/*
 package citizenmanagementplatform;
 
 import Controller.Citizen;
@@ -137,3 +138,4 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
         System.out.println("El documento se ha enviado de forma correcta para su impresión.");
     }
 }
+*/
