@@ -87,14 +87,15 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
             throw new NotValidPINException("El PIN introducido no es correcto y no se corresponde con el generado por el sistema previamente. Se indica al usuario que podria no estar vigente.");
         }
     }
-    private  void enterForm (Citizen citz, Goal goal) throws IncompleteFormException, IncorrectVerificationException, ConnectException {
+    public  void enterForm (Citizen citz, Goal goal) throws IncompleteFormException, IncorrectVerificationException, ConnectException {
 
     }
 
-    void enterCred (Nif nif, Password passw) throws NifNotRegisteredException, NotValidCredException, AnyMobileRegisteredException, ConnectException {
+    public void enterCred (Nif nif, Password passw) throws NifNotRegisteredException, NotValidCredException, AnyMobileRegisteredException, ConnectException {
         citz.setNif(nif);
         citz.setPassword(passw);
-        switch (authMethod.ckeckCredent(nif, passw)) {
+        byte cred = authMethod.ckeckCredent(nif, passw);
+        switch (cred) {
             case 0 -> throw new NifNotRegisteredException("El ciudadano no está registrado en el sistema Cl@ve PIN.");
 
             case 1 -> System.out.println("Los datos del usuario son correctos pero no se ha escogido el método reforzado.");
@@ -106,14 +107,14 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
     private  void realizePayment () {
 
     }
-    private  void enterCardData (CreditCard cardD) throws IncompleteFormException, NotValidPaymentDataException, InsufficientBalanceException, ConnectException {
+    public  void enterCardData (CreditCard cardD) throws IncompleteFormException, NotValidPaymentDataException, InsufficientBalanceException, ConnectException {
 
     }
-    private  void obtainCertificate () throws BadPathException, DigitalSignatureException, ConnectException {
+    public void obtainCertificate () throws BadPathException, DigitalSignatureException, ConnectException {
 
     }
 
-    private  void printDocument () throws BadPathException, PrintingException {
+    public void printDocument () throws BadPathException, PrintingException {
         printDocument(citz.getPDFDocument().getPath());
     }
 
@@ -121,17 +122,17 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
     // Other input events (not required)
     // Other internal operations (not required)
 
-    private  void registerPayment () {
+    public void registerPayment () {
 
     }
-    private  void openDocument (DocPath path) throws BadPathException {
+    public void openDocument (DocPath path) throws BadPathException {
         try {
             citz.getPDFDocument().openDoc(path);
         } catch (IOException e) {
             throw new BadPathException("El documento no se ha podido abrir debido a que el path no es correcto.");
         }
     }
-    private  void printDocument (DocPath path)  throws BadPathException, PrintingException {
+    public void printDocument (DocPath path)  throws BadPathException, PrintingException {
         if (!new File(path.getDocPath()).exists()) throw new BadPathException("El documento no se ha podido imprimir debido a que el path no es correcto.");
         System.out.println("El documento se ha enviado de forma correcta para su impresión.");
     }

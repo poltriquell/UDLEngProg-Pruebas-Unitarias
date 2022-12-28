@@ -3,6 +3,7 @@ package citizenmanagementplatform;
 import Controller.Citizen;
 import data.DocPath;
 import data.Nif;
+import data.Password;
 import data.SmallCode;
 import data.Goal;
 import publicadministration.CreditCard;
