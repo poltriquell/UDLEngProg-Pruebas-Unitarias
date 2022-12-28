@@ -53,4 +53,4 @@ final public class Goal {
     public String toString() {
         return "Goal{" + "detailedGoal='" + detailedGoal + '\'' + "goalType" + goalType + '}';
     }
-}
+ }
