@@ -1,5 +1,5 @@
 package publicadministration;
-
+/*
 import data.Nif;
 import data.SmallCode;
 import org.junit.jupiter.api.Test;
@@ -69,4 +69,4 @@ public class CreditCardTest {
     public void correctCardTest() {
         assertDoesNotThrow(() -> new CreditCard(defaultNif, "1111222233334444", LocalDate.of(2025, 10, 12), defaultSvc));
     }
-}
+}*/
