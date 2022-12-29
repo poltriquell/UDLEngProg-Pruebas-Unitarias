@@ -13,6 +13,7 @@ import publicadministration.Citizen;
 import publicadministration.exceptions.WrongMobileFormatException;
 import services.exceptions.ConnectException;
 import services.exceptions.IncorrectVerificationException;
+import services.exceptions.NifNotRegisteredException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -46,5 +47,9 @@ public class ClavePINUnifiedPlatformTest {
         platform.setAuthenticationMethod(new ClavePINCertificationAuthority(citz));
     }
 
+    @Test
+    public void notRegisteredNif() {
+        Assertions.assertThrows(WrongNifFormatException.class, () -> platform.enterNIFandPINobt(new Nif("57248135P"), citz.getValDate()));
+    }
 
 }
