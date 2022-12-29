@@ -6,6 +6,7 @@ import data.SmallCode;
 import exceptions.WrongNifFormatException;
 import publicadministration.exceptions.WrongMobileFormatException;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Citizen {
@@ -14,7 +15,7 @@ public class Citizen {
     private String name;
     private String address;
     private String mobileNumb;
-    private Date validationDate;
+    private LocalDate validationDate;
     private SmallCode PIN;
 
     private PDFDocument document;
@@ -59,7 +60,7 @@ public class Citizen {
         this.document = document;
     }
 
-    public void setValidationDate(Date validationDate) {
+    public void setValidationDate(LocalDate validationDate) {
         this.validationDate = validationDate;
     }
 
@@ -85,7 +86,7 @@ public class Citizen {
         return PIN;
     }
 
-    public Date getValDate() {
+    public LocalDate getValDate() {
         return this.validationDate;
     }
 
