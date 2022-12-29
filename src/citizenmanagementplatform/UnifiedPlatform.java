@@ -12,6 +12,7 @@ import publicadministration.CreditCard;
 import publicadministration.PDFDocument;
 import publicadministration.exceptions.DigitalSignatureException;
 import publicadministration.exceptions.WrongMobileFormatException;
+import services.CertificationAuthority;
 import services.CertificationAuthorityInterface;
 import services.JusticeMinistry;
 import services.exceptions.*;
@@ -20,7 +21,6 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class UnifiedPlatform implements UnifiedPlatformInterface {
     Citizen citz;
