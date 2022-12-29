@@ -1,3 +1,4 @@
+/*
 package citizenmanagementplatform;
 
 import citizenmanagementplatform.exceptions.BadPathException;
@@ -164,3 +165,4 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
         System.out.println("Se ha seleccionado el siguiente método de autenticación : " + selectedAuthenticationMethod);
     }
 }
+*/

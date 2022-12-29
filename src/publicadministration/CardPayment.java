@@ -1,6 +1,8 @@
 package publicadministration;
 
 import data.Nif;
+import publicadministration.exceptions.WrongImportValueException;
+import publicadministration.exceptions.WrongMobileFormatException;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -15,14 +17,20 @@ public class CardPayment {
     private final LocalDate date;
     private final BigDecimal importOfPayment;
 
-    public CardPayment(Nif nif, BigDecimal imp) {
+    public CardPayment(Nif nif, BigDecimal imp) throws WrongImportValueException {
+        checkValidImport(imp);
         this.reference = generateReference();
         this.nif = nif;
         this.date = LocalDate.now();
         this.importOfPayment = imp;
     }
 
-    public String generateReference() {
+    private void checkValidImport(BigDecimal imp) throws WrongImportValueException {
+        if(imp == null) throw new NullPointerException("The value of the import cannot be null.");
+        if(imp.compareTo(new BigDecimal("0")) < 0) throw new WrongImportValueException("You cannot introduce a negative import.");
+    }
+
+    private String generateReference() {
         StringBuilder ref = new StringBuilder();
         Random rndm = new Random();
 
@@ -32,6 +40,7 @@ public class CardPayment {
 
         return ref.toString();
     }
+
 
     @Override
     public boolean equals(Object o) {

@@ -1,3 +1,4 @@
+/*
 package citizenmanagementplatform;
 
 import citizenmanagementplatform.exceptions.BadPathException;
@@ -42,3 +43,4 @@ public interface UnifiedPlatformInterface {
     void openDocument (DocPath path) throws BadPathException;
     void printDocument (DocPath path) throws BadPathException, PrintingException;
 }
+*/
