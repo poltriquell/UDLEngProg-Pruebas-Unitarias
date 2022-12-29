@@ -1,12 +1,19 @@
+/*
 package citizenmanagementplatform;
 
-import Controller.Citizen;
-import data.DocPath;
-import data.Nif;
-import data.Password;
-import data.SmallCode;
+import citizenmanagementplatform.exceptions.BadPathException;
+import citizenmanagementplatform.exceptions.IncompleteFormException;
+import citizenmanagementplatform.exceptions.PrintingException;
+import dummiescertificationauthority.ClavePINCertificationAuthority;
+import dummiescertificationauthority.ClavePermanenteCertificationAuthority;
+import exceptions.WrongNifFormatException;
+import publicadministration.Citizen;
+import data.*;
+import publicadministration.CreditCard;
+import publicadministration.PDFDocument;
 import publicadministration.exceptions.DigitalSignatureException;
-import services.CertificationAuthority;
+import publicadministration.exceptions.WrongMobileFormatException;
+import services.CertificationAuthorityInterface;
 import services.JusticeMinistry;
 import services.exceptions.*;
 
@@ -17,33 +24,26 @@ import java.util.Date;
 
 public class UnifiedPlatform implements UnifiedPlatformInterface {
     Citizen citz;
-    CertificationAuthority authMethod;
+    CertificationAuthorityInterface authMethod;
+    Goal g;
     public JusticeMinistry justiceMinistry;
 
-    public ArrayList<String> possibleAuthenticationMethods;
+    public static ArrayList<String> possibleAuthenticationMethods;
 
-    public UnifiedPlatform() {
-        this.citz = new Citizen();
-        //this.aapp = new HashMap<>();
-        //setAAPP();
+    public UnifiedPlatform() throws WrongMobileFormatException, WrongNifFormatException, IncompleteFormException, IncorrectVerificationException, ConnectException {
 
-        //this.services = new HashMap<>();
-        //setServices();
+        this.possibleAuthenticationMethods = new ArrayList<>(); //Create the list of possible authentication methods
+        setAuthenticationMethods(); // Set the possible authentication methods into the ArrayList
+        selectAuthMethod((byte) 1); // Select the authentication method to use (1 = Clave Pin) (2 = Clave Permanente)
 
-        this.possibleAuthenticationMethods = new ArrayList<>();
-        setAuthenticationMethods();
+        enterForm(this.citz, g); // Enter the form with the citizen and the goal
 
-        //this.possibleDigitalCertificates = new ArrayList<>();
-        //setDigitalCertificates();
-
-        //setEncryptingKeys();
     }
 
     private void setAuthenticationMethods() {
         //We could use more authentication methods, but for the sake of simplicity we will use only one.
         possibleAuthenticationMethods.add("Cl@ve PIN");
         possibleAuthenticationMethods.add("Cl@ve Permanente");
-        possibleAuthenticationMethods.add("Certificado digital");
     }
 
     // Input events
@@ -58,25 +58,26 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
     }
     public void selectAuthMethod (byte opc) {
         // Assuming that Authentication methods are stored in the same order as they are displayed to the user in the GUI
+        System.out.println("Se ha seleccionado el metodo :" + opc + " " + possibleAuthenticationMethods.get(opc-1));
         String selectedAuthenticationMethod = possibleAuthenticationMethods.get(opc - 1);
         System.out.println("Se ha seleccionado el siguiente método de autenticación : " + selectedAuthenticationMethod);
     }
 
-    public void enterNIFandPINobt (Nif nif, Date valDate) throws  NifNotRegisteredException, IncorrectValDateException, AnyMobileRegisteredException, ConnectException {
+    public void enterNIFandPINobt (Nif nif, Date valDate) throws NifNotRegisteredException, IncorrectValDateException, AnyMobileRegisteredException, ConnectException, NotValidCredException {
+        citz.setNif(nif);
+        citz.setValidationDate(valDate);
         // Assuming auth method is Cl@ve PIN
-        citz.setNif(nif);  // We set the citizen nif to the one we got through parameter
-        citz.setValDate(valDate);  // We set the citizen validation date to the one we got through parameter
         if (authMethod.sendPIN(nif, valDate)) {
             System.out.println("Se envia el PIN al usuario con DNI -> " + nif.getNif());
         } else {
             throw new ConnectException("Ha ocurrido un error al enviar el PIN al número de teléfono móvil correspondiente.");
         }
     }
-    public void enterPIN (SmallCode pin) throws NotValidPINException,ConnectException {
+    public void enterPIN (SmallCode pin) throws NotValidPINException, ConnectException, IOException, DigitalSignatureException {
         if (authMethod.checkPIN(citz.getNif(), pin)) {
             System.out.println("El PIN introducido es correcto y se corresponde con el generado por el sistema previamente. Se indica al usuario de su vigencia.");
             if (justiceMinistry != null) {
-                PDFDocument pdf = justiceMinistry.getCriminalRecordCertf(citz, Goal.CriminalRecordCertf); // Goal ???
+                PDFDocument pdf = justiceMinistry.getCriminalRecordCertf(citz, g);
                 citz.setPDFDocument(pdf);
                 pdf.openDoc(pdf.getPath());
                 System.out.println("Se procede a mostrar el certificado de antecedentes penales.");
@@ -92,9 +93,7 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
     }
 
     public void enterCred (Nif nif, Password passw) throws NifNotRegisteredException, NotValidCredException, AnyMobileRegisteredException, ConnectException {
-        citz.setNif(nif);
-        citz.setPassword(passw);
-        byte cred = authMethod.ckeckCredent(nif, passw);
+        byte cred = authMethod.checkCredent(nif, passw);
         switch (cred) {
             case 0 -> throw new NifNotRegisteredException("El ciudadano no está registrado en el sistema Cl@ve PIN.");
 
@@ -104,7 +103,7 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
         }
     }
 
-    private  void realizePayment () {
+    public  void realizePayment () {
 
     }
     public  void enterCardData (CreditCard cardD) throws IncompleteFormException, NotValidPaymentDataException, InsufficientBalanceException, ConnectException {
@@ -133,7 +132,37 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
         }
     }
     public void printDocument (DocPath path)  throws BadPathException, PrintingException {
-        if (!new File(path.getDocPath()).exists()) throw new BadPathException("El documento no se ha podido imprimir debido a que el path no es correcto.");
+        if (!new File(path.getPath()).exists()) throw new BadPathException("El documento no se ha podido imprimir debido a que el path no es correcto.");
         System.out.println("El documento se ha enviado de forma correcta para su impresión.");
     }
+
+    // Some other useful methods (not required).
+
+    public void getCertfAuthFromByte(byte opc, Citizen citizen) {
+        switch (opc) {
+            case 1 -> authMethod = new ClavePINCertificationAuthority(citizen);
+
+            case 2 -> authMethod = new ClavePermanenteCertificationAuthority(citizen);
+
+            default -> System.out.println("No se ha seleccionado ningún método de autenticación implementado, estará implementado en próximas versiones.");
+        }
+    }
+
+    public static void main(String[] args) {
+        byte opc = 1;
+        possibleAuthenticationMethods = new ArrayList<>();
+
+        possibleAuthenticationMethods.add("Cl@ve PIN");
+        possibleAuthenticationMethods.add("Cl@ve Permanente");
+
+        System.out.println("Se ha seleccionado el metodo :" + possibleAuthenticationMethods.get(opc - 1));
+        String selectedAuthenticationMethod = possibleAuthenticationMethods.get(opc - 1);
+        System.out.println("Se ha seleccionado el siguiente método de autenticación : " + selectedAuthenticationMethod);
+
+        opc = 2;
+        System.out.println("Se ha seleccionado el metodo :" + opc + " " + possibleAuthenticationMethods.get(opc-1));
+        selectedAuthenticationMethod = possibleAuthenticationMethods.get(opc - 1);
+        System.out.println("Se ha seleccionado el siguiente método de autenticación : " + selectedAuthenticationMethod);
+    }
 }
+*/

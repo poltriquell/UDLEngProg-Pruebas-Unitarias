@@ -33,6 +33,6 @@ final public class DocPath {
     }
 
     private void checkCorrectPath(String path) {
-        if (path == null) throw new NullPointerException("Path cannot be null");
+        if (path == null) throw new NullPointerException("El path no puede ser null.");
     }
 }

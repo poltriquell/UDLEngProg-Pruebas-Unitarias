@@ -1,6 +1,6 @@
 package publicadministration;
 
-import data.DocPath;
+import data.*;
 
 import java.awt.*;
 import java.io.File;
@@ -30,7 +30,7 @@ public class PDFDocument {
         return "PDF Document{ creatDate= " + creatDate.toString() + " path= " + path.toString() + " }";
     }
 
-    public void moveDoc (DocPath destPath) throws IOException {
+    public void moveDoc(DocPath destPath) throws IOException {
         File newFile = new File(destPath.getPath());
 
         if (!newFile.exists()) throw new IOException("The introduced path does not exist");
@@ -42,11 +42,27 @@ public class PDFDocument {
         path = destPath;
     }
 
-    public void openDoc (DocPath path) throws IOException{
+    public void openDoc(DocPath path) throws IOException{
         File newFile = new File(path.getPath());
         if (!newFile.exists()) throw new IOException("The specified document does not exist.");
 
         File file = new File(path.getPath());
         Desktop.getDesktop().open(file);
+    }
+
+    public Date getCreatDate() {
+        return creatDate;
+    }
+
+    public DocPath getPath() {
+        return path;
+    }
+
+    public File getFile() {
+        return file;
+    }
+
+    public String getDefaultDocPath() {
+        return defaultDocPath;
     }
 }

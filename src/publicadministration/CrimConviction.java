@@ -8,11 +8,11 @@ import java.util.Date;
 
 public class CrimConviction {
 
-    private Date commitDate;
+    private LocalDate commitDate;
     private String offense;
     private String sentence;
 
-    public CrimConviction(Date commit, String off, String sentc) throws WrongCrimConvictionFormatException {
+    public CrimConviction(LocalDate commit, String off, String sentc) throws WrongCrimConvictionFormatException {
         checkCrimConviction(commit, off, sentc);
         this.commitDate = commit;
         this.offense = off;
@@ -40,7 +40,7 @@ public class CrimConviction {
         return result;
     }
 
-    private void checkCrimConviction(Date commit, String off, String sentc) throws WrongCrimConvictionFormatException {
+    private void checkCrimConviction(LocalDate commit, String off, String sentc) throws WrongCrimConvictionFormatException {
         if(commit == null) throw new NullPointerException("The crim conviction date cannot be null.");
         if(off == null) throw new NullPointerException("The crim conviction offense cannot be null.");
         if(sentc == null) throw new NullPointerException("The crim conviction sentence cannot be null.");
@@ -48,11 +48,11 @@ public class CrimConviction {
         if(notValidDate(commit)) throw new WrongCrimConvictionFormatException("You cannot register a future crim conviction.");
     }
 
-    private boolean notValidDate(Date commit) {
-        return commit.after(Calendar.getInstance().getTime());
+    private boolean notValidDate(LocalDate commit) {
+        return commit.isAfter(LocalDate.now());
     }
 
-    public Date getCommitDate() {
+    public LocalDate getCommitDate() {
         return commitDate;
     }
 

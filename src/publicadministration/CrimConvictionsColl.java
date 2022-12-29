@@ -1,9 +1,10 @@
 package publicadministration;
 
 import publicadministration.exceptions.RepeatedCrimConvictionException;
+import publicadministration.exceptions.WrongDateFormatException;
 
+import java.time.LocalDate;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.ArrayList;
 
 public class CrimConvictionsColl {
@@ -32,9 +33,9 @@ public class CrimConvictionsColl {
     }
 
     // Gets a specific criminal conviction by date
-    public CrimConviction getCriminalConviction(Date date){
+    public CrimConviction getCriminalConviction(LocalDate date) throws WrongDateFormatException {
         if(date == null) throw new NullPointerException("A date cannot be null.");
-        if(date.after(Calendar.getInstance().getTime())) throw new IllegalArgumentException("You cannot introduce a future date.");
+        if(notValidDate(date))throw new WrongDateFormatException("You cannot get a future date.");
 
         for(CrimConviction crmC : crimConvictions) {
             if(crmC.getCommitDate().equals(date)) {
@@ -43,6 +44,10 @@ public class CrimConvictionsColl {
         }
 
         return null;
+    }
+
+    private boolean notValidDate(LocalDate date) {
+        return date.isAfter(LocalDate.now());
     }
 
     public String toString() {
