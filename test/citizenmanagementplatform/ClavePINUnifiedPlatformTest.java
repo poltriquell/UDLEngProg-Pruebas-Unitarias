@@ -5,6 +5,7 @@ import data.Nif;
 import dummiescertificationauthority.ClavePINCertificationAuthority;
 import exceptions.WrongNifFormatException;
 import exceptions.WrongPasswordFormatException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import publicadministration.Citizen;
@@ -16,6 +17,7 @@ import java.time.LocalDate;
 import java.util.Calendar;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ClavePINUnifiedPlatformTest {
 
@@ -24,7 +26,7 @@ public class ClavePINUnifiedPlatformTest {
     @BeforeEach
     public void setUp() throws WrongMobileFormatException, WrongNifFormatException, IncompleteFormException, IncorrectVerificationException, ConnectException {
 
-        citz = new Citizen("Jake Peralta", "Calle Hispanidad 12", "121012101");
+        citz = new Citizen("Jake Peralta", "Calle Hispanidad 12", "612101210");
         citz.setNif(new Nif("99571829E"));
 
         UnifiedPlatform platform = new UnifiedPlatform();

@@ -28,7 +28,7 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
     Goal g;
     public JusticeMinistry justiceMinistry;
 
-    public ArrayList<String> possibleAuthenticationMethods;
+    public static ArrayList<String> possibleAuthenticationMethods;
 
     public UnifiedPlatform() throws WrongMobileFormatException, WrongNifFormatException, IncompleteFormException, IncorrectVerificationException, ConnectException {
 
