@@ -4,11 +4,11 @@ import data.*;
 
 import services.exceptions.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public interface CertificationAuthorityInterface {
 
-    boolean sendPIN(Nif nif, Date date) throws NifNotRegisteredException, IncorrectValDateException, AnyMobileRegisteredException, ConnectException, NotValidCredException;
+    boolean sendPIN(Nif nif, LocalDate date) throws NifNotRegisteredException, IncorrectValDateException, AnyMobileRegisteredException, ConnectException, NotValidCredException;
 
     boolean checkPIN(Nif nif, SmallCode pin) throws NotValidPINException, ConnectException;
 

@@ -7,7 +7,7 @@ import publicadministration.Citizen;
 import services.CertificationAuthorityInterface;
 import services.exceptions.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class ClavePINCertificationAuthority implements CertificationAuthorityInterface {
 
@@ -17,7 +17,7 @@ public class ClavePINCertificationAuthority implements CertificationAuthorityInt
         this.citizen = citizen;
     }
 
-    public boolean sendPIN(Nif nif, Date date) throws NifNotRegisteredException, IncorrectValDateException, AnyMobileRegisteredException, ConnectException, NotValidCredException {
+    public boolean sendPIN(Nif nif, LocalDate date) throws NifNotRegisteredException, IncorrectValDateException, AnyMobileRegisteredException, ConnectException, NotValidCredException {
 
         if (!nif.equals(citizen.getNif())) {
             throw new NifNotRegisteredException("El NIF no está registrado.");

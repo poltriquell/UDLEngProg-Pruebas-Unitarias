@@ -18,6 +18,7 @@ import services.exceptions.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -62,7 +63,7 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
         System.out.println("Se ha seleccionado el siguiente método de autenticación : " + selectedAuthenticationMethod);
     }
 
-    public void enterNIFandPINobt (Nif nif, Date valDate) throws NifNotRegisteredException, IncorrectValDateException, AnyMobileRegisteredException, ConnectException, NotValidCredException {
+    public void enterNIFandPINobt (Nif nif, LocalDate valDate) throws NifNotRegisteredException, IncorrectValDateException, AnyMobileRegisteredException, ConnectException, NotValidCredException {
         citz.setNif(nif);
         citz.setValidationDate(valDate);
         //Como se indica en el contrato, sólo se usara el método de autenticación Cl@ve PIN

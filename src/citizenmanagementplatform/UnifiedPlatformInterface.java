@@ -15,16 +15,17 @@ import publicadministration.exceptions.DigitalSignatureException;
 import services.exceptions.*;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Date;
 
 public interface UnifiedPlatformInterface {
     // Input events
     void selectJusMin ();
-    void selectProcedures ();
+    void selectProcedures();
     void selectCriminalReportCertf ();
     void selectAuthMethod (byte opc);
 
-    void enterNIFandPINobt (Nif nif, Date valDate) throws NifNotRegisteredException, IncorrectValDateException, AnyMobileRegisteredException, ConnectException, NotValidCredException;
+    void enterNIFandPINobt (Nif nif, LocalDate valDate) throws NifNotRegisteredException, IncorrectValDateException, AnyMobileRegisteredException, ConnectException, NotValidCredException;
     void enterPIN (SmallCode pin) throws NotValidPINException, ConnectException, IOException, DigitalSignatureException;
     void enterForm (Citizen citizen, Goal goal) throws IncompleteFormException, IncorrectVerificationException, ConnectException;
     void enterCred (Nif nif, Password passw) throws NifNotRegisteredException, NotValidCredException, AnyMobileRegisteredException, ConnectException;

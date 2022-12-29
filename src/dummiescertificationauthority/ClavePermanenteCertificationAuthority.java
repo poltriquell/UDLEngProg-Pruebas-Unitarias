@@ -7,7 +7,7 @@ import publicadministration.Citizen;
 import services.CertificationAuthorityInterface;
 import services.exceptions.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class ClavePermanenteCertificationAuthority implements CertificationAuthorityInterface {
 
@@ -18,7 +18,7 @@ public class ClavePermanenteCertificationAuthority implements CertificationAutho
     }
 
 
-    public boolean sendPIN(Nif nif, Date date) throws NifNotRegisteredException, IncorrectValDateException, AnyMobileRegisteredException, ConnectException {
+    public boolean sendPIN(Nif nif, LocalDate date) throws NifNotRegisteredException, IncorrectValDateException, AnyMobileRegisteredException, ConnectException {
         return false;
     }
 
