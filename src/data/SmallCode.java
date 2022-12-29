@@ -2,6 +2,8 @@ package data;
 
 import exceptions.WrongSmallCodeFormatException;
 
+import java.util.Random;
+
 final public class SmallCode {
 
     private final String smallCode;
@@ -15,6 +17,17 @@ final public class SmallCode {
         if (smallCode == null) throw new NullPointerException("Small Code cannot be null.");
         if (smallCode.length() != 3) throw new WrongSmallCodeFormatException("Small Code must be 3 characters long.");
         if (wrongSmallCodeFormat(smallCode)) throw new WrongSmallCodeFormatException("Incorrect SmallCode format. Cannot contain non-digit characters. Remember that it must be 3 characters long.");
+    }
+
+    public static String generateSmallCode() {
+        StringBuilder sCo = new StringBuilder();
+        Random rndm = new Random();
+
+        for(int i = 0; i < 3; i++) {
+            sCo.append(rndm.nextInt(0, 9));
+        }
+
+        return sCo.toString();
     }
 
     private boolean wrongSmallCodeFormat(String smallCode) {

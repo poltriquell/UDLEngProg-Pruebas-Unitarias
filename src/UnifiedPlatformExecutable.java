@@ -1,10 +1,13 @@
 import citizenmanagementplatform.UnifiedPlatformInterface;
 import citizenmanagementplatform.UnifiedPlatform;
-import data.Nif;
+import data.*;
 import exceptions.WrongNifFormatException;
+import exceptions.WrongSmallCodeFormatException;
+import publicadministration.exceptions.DigitalSignatureException;
 import publicadministration.exceptions.WrongMobileFormatException;
 import services.exceptions.*;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -25,6 +28,7 @@ public class UnifiedPlatformExecutable {
 
         selectAuthMethod();
         introduceNIFandValDate();
+        introducePIN();
 
     }
 
@@ -75,5 +79,13 @@ public class UnifiedPlatformExecutable {
         LocalDate valDate = LocalDate.parse(date, formatter);
 
         up.enterNIFandPINobt(newNif, valDate);
+        String PIN = SmallCode.generateSmallCode();
+        System.out.println("PIN generado: " + PIN);
+    }
+
+    private static void introducePIN() throws WrongSmallCodeFormatException, NotValidPINException, DigitalSignatureException, IOException, ConnectException {
+        String PINcode = keyboard.nextLine();
+        SmallCode PIN = new SmallCode(PINcode);
+        up.enterPIN(PIN);
     }
 }
