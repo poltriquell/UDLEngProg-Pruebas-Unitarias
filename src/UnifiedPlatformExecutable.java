@@ -1,5 +1,10 @@
 import citizenmanagementplatform.UnifiedPlatformInterface;
 import citizenmanagementplatform.UnifiedPlatform;
+import data.Nif;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 public class UnifiedPlatformExecutable {
     public static void main(String[] args) throws Exception {
@@ -25,8 +30,12 @@ public class UnifiedPlatformExecutable {
         up.selectAuthMethod(Byte.parseByte(option));
         System.out.println("Introducir el NIF");
         String NIF = keyboard.nextLine();
-        System.out.println("Introducir data de validación");
+        Nif nif = new Nif(NIF); // NIF is a String -> Nif is a class
+        System.out.println("Introducir data de validación en formato dd/mm/aaaa");
         String valdate = keyboard.nextLine();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate date = LocalDate.parse(valdate, formatter); // valdate is a String -> LocalDate is a class
+        up.enterNIFandPINobt(nif, date);
 
 
     }
