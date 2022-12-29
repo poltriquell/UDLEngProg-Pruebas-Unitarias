@@ -3,6 +3,7 @@ package citizenmanagementplatform;
 import citizenmanagementplatform.exceptions.BadPathException;
 import citizenmanagementplatform.exceptions.IncompleteFormException;
 import citizenmanagementplatform.exceptions.PrintingException;
+import exceptions.WrongNifFormatException;
 import publicadministration.Citizen;
 import data.DocPath;
 import data.Nif;
@@ -12,6 +13,7 @@ import data.Goal;
 import publicadministration.CreditCard;
 
 import publicadministration.exceptions.DigitalSignatureException;
+import publicadministration.exceptions.WrongMobileFormatException;
 import services.exceptions.*;
 
 import java.io.IOException;
@@ -25,7 +27,7 @@ public interface UnifiedPlatformInterface {
     void selectCriminalReportCertf ();
     void selectAuthMethod (byte opc);
 
-    void enterNIFandPINobt (Nif nif, LocalDate valDate) throws NifNotRegisteredException, IncorrectValDateException, AnyMobileRegisteredException, ConnectException, NotValidCredException;
+    void enterNIFandPINobt (Nif nif, LocalDate valDate) throws NifNotRegisteredException, IncorrectValDateException, AnyMobileRegisteredException, ConnectException, NotValidCredException, WrongMobileFormatException, WrongNifFormatException;
     void enterPIN (SmallCode pin) throws NotValidPINException, ConnectException, IOException, DigitalSignatureException;
     void enterForm (Citizen citizen, Goal goal) throws IncompleteFormException, IncorrectVerificationException, ConnectException;
     void enterCred (Nif nif, Password passw) throws NifNotRegisteredException, NotValidCredException, AnyMobileRegisteredException, ConnectException;

@@ -12,6 +12,7 @@ import publicadministration.CreditCard;
 import publicadministration.PDFDocument;
 import publicadministration.exceptions.DigitalSignatureException;
 import publicadministration.exceptions.WrongMobileFormatException;
+import services.CertificationAuthority;
 import services.CertificationAuthorityInterface;
 import services.JusticeMinistry;
 import services.exceptions.*;
@@ -63,9 +64,12 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
         System.out.println("Se ha seleccionado el siguiente método de autenticación : " + selectedAuthenticationMethod);
     }
 
-    public void enterNIFandPINobt (Nif nif, LocalDate valDate) throws NifNotRegisteredException, IncorrectValDateException, AnyMobileRegisteredException, ConnectException, NotValidCredException {
+    public void enterNIFandPINobt (Nif nif, LocalDate valDate) throws NifNotRegisteredException, IncorrectValDateException, AnyMobileRegisteredException, ConnectException, NotValidCredException, WrongMobileFormatException, WrongNifFormatException {
+        citz = new Citizen("Jake Peralta", "Calle Hispanidad 12", "612101210");
         citz.setNif(nif);
         citz.setValidationDate(valDate);
+        authMethod = new CertificationAuthority(citz);
+
         //Como se indica en el contrato, sólo se usara el método de autenticación Cl@ve PIN
         if (authMethod.sendPIN(nif, valDate)) {
             System.out.println("Se envia el PIN al usuario con DNI -> " + citz.getNif());

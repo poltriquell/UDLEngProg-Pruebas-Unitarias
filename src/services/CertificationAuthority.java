@@ -6,17 +6,18 @@ import data.SmallCode;
 import publicadministration.Citizen;
 import services.exceptions.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
-public class CertificationAuthority {
+public class CertificationAuthority implements CertificationAuthorityInterface{
     Citizen citizen;
 
-    public void CitizenCertificationAuthority(Citizen citizen) {
+    public CertificationAuthority(Citizen citizen) {
         this.citizen = citizen;
     }
 
-    public boolean sendPIN(Nif nif, Date date) throws NifNotRegisteredException, IncorrectValDateException, AnyMobileRegisteredException, ConnectException {
-
+    @Override
+    public boolean sendPIN(Nif nif, LocalDate date) throws NifNotRegisteredException, IncorrectValDateException, AnyMobileRegisteredException, ConnectException, NotValidCredException {
         if (!nif.equals(citizen.getNif())) {
             throw new NifNotRegisteredException("El NIF no está registrado.");
         }
@@ -30,6 +31,7 @@ public class CertificationAuthority {
         return true;
     }
 
+    @Override
     public boolean checkPIN(Nif nif, SmallCode pin) throws NotValidPINException, ConnectException {
         if (!pin.equals(citizen.getPIN())) {
             throw new NotValidPINException("El PIN introducido no es correcto.");
@@ -38,7 +40,8 @@ public class CertificationAuthority {
         return true;
     }
 
-    public byte ckeckCredent(Nif nif, Password passw) throws NifNotRegisteredException, NotValidCredException, AnyMobileRegisteredException, ConnectException {
+    @Override
+    public byte checkCredent(Nif nif, Password passw) throws NifNotRegisteredException, NotValidCredException, AnyMobileRegisteredException, ConnectException {
         if (!nif.equals(citizen.getNif())) {
             throw new NifNotRegisteredException("El NIF no está registrado.");
         }
@@ -53,5 +56,4 @@ public class CertificationAuthority {
         }
         return 1;
     }
-
 }

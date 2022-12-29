@@ -1,42 +1,79 @@
 import citizenmanagementplatform.UnifiedPlatformInterface;
 import citizenmanagementplatform.UnifiedPlatform;
 import data.Nif;
+import exceptions.WrongNifFormatException;
+import publicadministration.exceptions.WrongMobileFormatException;
+import services.exceptions.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Scanner;
 
 public class UnifiedPlatformExecutable {
+
+    static UnifiedPlatform up;
+    static Scanner keyboard = new Scanner(System.in);
+
     public static void main(String[] args) throws Exception {
-        UnifiedPlatform up = new UnifiedPlatform();
+        up = new UnifiedPlatform();
         System.out.println("\033[32mUnified Platform STARTED\033[0m");
+
+        selectMinistry();
+        selectProcedure();
+        selectCertificate();
+
+        selectAuthMethod();
+        introduceNIFandValDate();
+
+    }
+
+    private static String selectMinistry() {
         System.out.println("Seleccionar el ministerio deseado " +
                 "\n1. Ministerio de Justicia \n2. Ministerio de Sanidad \n3. Ministerio de Educación \n4. Ministerio de Trabajo\n____________________________________________");
 
-        java.util.Scanner keyboard = new java.util.Scanner(System.in);
-        String option = keyboard.nextLine();
-        System.out.println("Has seleccionado la opción " + option + " Ministerio de Justicia");
+        String chosenMinistry = keyboard.nextLine();
+        up.selectJusMin();
+
+        return chosenMinistry;
+    }
+
+    private static String selectProcedure() {
         System.out.println("Seleccionar apartado deseado " +
                 "\n1. Trámites \n2. Información \n3. Contacto\n____________________________________________");
-        option = keyboard.nextLine();
+
+        String chosenProcedure = keyboard.nextLine();
         up.selectProcedures();
+        return chosenProcedure;
+    }
+
+    private static String selectCertificate() {
         System.out.println("Seleccionar el trámite deseado " +
                 "\n1. Obtener el certificado de antecedentes penales\n____________________________________________");
-        option = keyboard.nextLine();
+
+        String chosenCertf = keyboard.nextLine();
         up.selectCriminalReportCertf();
+        return chosenCertf;
+    }
+
+    private static void selectAuthMethod() {
         System.out.println("Seleccionar el método de autenticación deseado " +
                 "\n1. Cl@ve PIN \n2. Cl@ve Permanente\n____________________________________________");
-        option = keyboard.nextLine();
-        up.selectAuthMethod(Byte.parseByte(option));
-        System.out.println("Introducir el NIF");
-        String NIF = keyboard.nextLine();
-        Nif nif = new Nif(NIF); // NIF is a String -> Nif is a class
-        System.out.println("Introducir data de validación en formato dd/mm/aaaa");
-        String valdate = keyboard.nextLine();
+
+        String method = keyboard.nextLine();
+        up.selectAuthMethod(Byte.parseByte(method));
+    }
+
+    private static void introduceNIFandValDate() throws WrongNifFormatException, NotValidCredException, IncorrectValDateException, NifNotRegisteredException, AnyMobileRegisteredException, ConnectException, WrongMobileFormatException {
+        System.out.println("Introducir el NIF:");
+        String nifCode = keyboard.nextLine();
+        Nif newNif = new Nif(nifCode);
+
+        System.out.println("Introducir fecha de validación en formato dd/mm/aaaa");
+        String date = keyboard.nextLine();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate date = LocalDate.parse(valdate, formatter); // valdate is a String -> LocalDate is a class
-        up.enterNIFandPINobt(nif, date);
+        LocalDate valDate = LocalDate.parse(date, formatter);
 
-
+        up.enterNIFandPINobt(newNif, valDate);
     }
 }
