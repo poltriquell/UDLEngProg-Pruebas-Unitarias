@@ -39,13 +39,4 @@ public class ClavePINUnifiedPlatformTest {
         platform.setAuthenticationMethod(new ClavePINCertificationAuthority(citz));
     }
 
-    @Test
-    @Override
-    public void selectExistentAuthMethodTest() {
-        byte method = 1;
-        String expected = "Se ha seleccionado Cl@ve PIN como método de autenticación.";
-        platform.selectAuthMethod(method);
-        assertEquals(expected.strip(), "Cl@ve PIN");
-    }
-
 }
