@@ -138,6 +138,10 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
 
     // Some other useful methods (not required).
 
+    public void setAuthenticationMethod(CertificationAuthorityInterface method) {
+        this.authMethod = method;
+    }
+
     public void getCertificationAuthorityFromByte(byte opc, Citizen citizen) {
         switch (opc) {
             case 1 -> authMethod = new ClavePINCertificationAuthority(citizen);
