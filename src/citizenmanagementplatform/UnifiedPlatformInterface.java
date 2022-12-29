@@ -24,7 +24,7 @@ public interface UnifiedPlatformInterface {
     void selectCriminalReportCertf ();
     void selectAuthMethod (byte opc);
 
-    void enterNIFandPINobt (Nif nif, Date valDate) throws NifNotRegisteredException, IncorrectValDateException, AnyMobileRegisteredException, ConnectException;
+    void enterNIFandPINobt (Nif nif, Date valDate) throws NifNotRegisteredException, IncorrectValDateException, AnyMobileRegisteredException, ConnectException, NotValidCredException;
     void enterPIN (SmallCode pin) throws NotValidPINException, ConnectException, IOException, DigitalSignatureException;
     void enterForm (Citizen citizen, Goal goal) throws IncompleteFormException, IncorrectVerificationException, ConnectException;
     void enterCred (Nif nif, Password passw) throws NifNotRegisteredException, NotValidCredException, AnyMobileRegisteredException, ConnectException;
