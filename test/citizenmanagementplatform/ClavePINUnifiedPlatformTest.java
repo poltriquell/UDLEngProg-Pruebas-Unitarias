@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import publicadministration.Citizen;
 import publicadministration.exceptions.WrongMobileFormatException;
+import services.exceptions.AnyMobileRegisteredException;
 import services.exceptions.ConnectException;
 import services.exceptions.IncorrectVerificationException;
 import services.exceptions.NifNotRegisteredException;
@@ -21,7 +22,7 @@ import java.time.LocalDate;
 import java.util.Calendar;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ClavePINUnifiedPlatformTest {
 
@@ -45,11 +46,6 @@ public class ClavePINUnifiedPlatformTest {
 
         citz.setValidationDate(LocalDate.now());
         platform.setAuthenticationMethod(new ClavePINCertificationAuthority(citz));
-    }
-
-    @Test
-    public void notRegisteredNif() {
-        Assertions.assertThrows(WrongNifFormatException.class, () -> platform.enterNIFandPINobt(new Nif("57248135P"), citz.getValDate()));
     }
 
 }

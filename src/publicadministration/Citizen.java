@@ -64,6 +64,10 @@ public class Citizen {
         this.validationDate = validationDate;
     }
 
+    public void setMobileNumb(String mobileNumb) {
+        this.mobileNumb = mobileNumb;
+    }
+
     public Nif getNif() {return nif;}
 
     public String getAddress() {
@@ -98,7 +102,5 @@ public class Citizen {
     public String toString() {
         return "Citizen{ nif= " + nif + " name= " + name + " address= " + address + " mobileNumb= " + mobileNumb + "}";
     }
-
-
 
 }
