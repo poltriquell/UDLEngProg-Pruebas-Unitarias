@@ -1,4 +1,3 @@
-/*
 package citizenmanagementplatform;
 
 import citizenmanagementplatform.exceptions.BadPathException;
@@ -32,7 +31,6 @@ public interface UnifiedPlatformInterface {
     void realizePayment ();
     void enterCardData (CreditCard cardD) throws IncompleteFormException, NotValidPaymentDataException, InsufficientBalanceException, ConnectException;
     void obtainCertificate () throws BadPathException, DigitalSignatureException, ConnectException;
-
     void printDocument () throws BadPathException, PrintingException;
 
     // The setter methods for injecting the dependences
@@ -43,4 +41,3 @@ public interface UnifiedPlatformInterface {
     void openDocument (DocPath path) throws BadPathException;
     void printDocument (DocPath path) throws BadPathException, PrintingException;
 }
-*/

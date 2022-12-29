@@ -1,4 +1,3 @@
-/*
 package citizenmanagementplatform;
 
 import citizenmanagementplatform.exceptions.BadPathException;
@@ -138,7 +137,7 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
 
     // Some other useful methods (not required).
 
-    public void getCertfAuthFromByte(byte opc, Citizen citizen) {
+    public void getCertificationAuthorityFromByte(byte opc, Citizen citizen) {
         switch (opc) {
             case 1 -> authMethod = new ClavePINCertificationAuthority(citizen);
 
@@ -165,4 +164,3 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
         System.out.println("Se ha seleccionado el siguiente método de autenticación : " + selectedAuthenticationMethod);
     }
 }
-*/
