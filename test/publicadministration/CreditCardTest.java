@@ -77,3 +77,4 @@ public class CreditCardTest {
         assertDoesNotThrow(() -> new CreditCard(defaultNif, "1111222233334444", LocalDate.of(2025, 10, 12), defaultSvc));
     }
 }
+
