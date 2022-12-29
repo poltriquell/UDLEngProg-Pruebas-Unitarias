@@ -1,8 +1,12 @@
 package publicadministration;
 
 import data.Nif;
+import data.Password;
+import data.SmallCode;
 import exceptions.WrongNifFormatException;
 import publicadministration.exceptions.WrongMobileFormatException;
+
+import java.util.Date;
 
 public class Citizen {
 
@@ -10,12 +14,16 @@ public class Citizen {
     private String name;
     private String address;
     private String mobileNumb;
+    private Date validationDate;
+    private SmallCode PIN;
 
-    public Citizen(String name, String add, String mobile) throws WrongMobileFormatException, WrongNifFormatException {
-        checkValidCitizen(name, add, mobile);
+    private PDFDocument document;
+
+    public Citizen(String name, String address, String mobile) throws WrongMobileFormatException, WrongNifFormatException {
+        checkValidCitizen(name, address, mobile);
         this.nif = new Nif("81871430D");
         this.name = name;
-        this.address = add;
+        this.address = address;
         this.mobileNumb = mobile;
     }
 
@@ -43,9 +51,19 @@ public class Citizen {
         return false;
     }
 
-    public Nif getNif() {
-        return nif;
+    public void setNif(Nif nif) {
+        this.nif = nif;
     }
+
+    public void setPDFDocument(PDFDocument document) {
+        this.document = document;
+    }
+
+    public void setValidationDate(Date validationDate) {
+        this.validationDate = validationDate;
+    }
+
+    public Nif getNif() {return nif;}
 
     public String getAddress() {
         return address;
@@ -59,9 +77,27 @@ public class Citizen {
         return name;
     }
 
+    public PDFDocument getPDFDocument() {
+        return this.document;
+    }
+
+    public SmallCode getPIN() {
+        return PIN;
+    }
+
+    public Date getValDate() {
+        return this.validationDate;
+    }
+
+    public boolean hasDoubleFactorPINActivated() {
+        return false;
+    }
+
     @Override
     public String toString() {
         return "Citizen{ nif= " + nif + " name= " + name + " address= " + address + " mobileNumb= " + mobileNumb + "}";
     }
-}
 
+
+
+}
