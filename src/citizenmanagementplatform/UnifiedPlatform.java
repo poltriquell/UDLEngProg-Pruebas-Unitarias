@@ -7,11 +7,7 @@ import dummiescertificationauthority.ClavePINCertificationAuthority;
 import dummiescertificationauthority.ClavePermanenteCertificationAuthority;
 import exceptions.WrongNifFormatException;
 import publicadministration.Citizen;
-import data.Goal;
-import data.DocPath;
-import data.Nif;
-import data.Password;
-import data.SmallCode;
+import data.*;
 import publicadministration.CreditCard;
 import publicadministration.PDFDocument;
 import publicadministration.exceptions.DigitalSignatureException;
@@ -34,23 +30,13 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
     public static ArrayList<String> possibleAuthenticationMethods;
 
     public UnifiedPlatform() throws WrongMobileFormatException, WrongNifFormatException, IncompleteFormException, IncorrectVerificationException, ConnectException {
-        this.citz = new Citizen("John Doe", "Calle Falsa 123", "666666666");
-        //thi aapp = new HashMap<>();
-        //setAAPP();
 
-        //this.services = new HashMap<>();
-        //setServices();
+        this.possibleAuthenticationMethods = new ArrayList<>(); //Create the list of possible authentication methods
+        setAuthenticationMethods(); // Set the possible authentication methods into the ArrayList
+        selectAuthMethod((byte) 1); // Select the authentication method to use (1 = Clave Pin) (2 = Clave Permanente)
 
-        this.possibleAuthenticationMethods = new ArrayList<>();
-        setAuthenticationMethods();
-        selectAuthMethod((byte) 1);
+        enterForm(this.citz, g); // Enter the form with the citizen and the goal
 
-
-        enterForm(this.citz, g);
-        //this.possibleDigitalCertificates = new ArrayList<>();
-        //setDigitalCertificates();
-
-        //setEncryptingKeys();
     }
 
     private void setAuthenticationMethods() {
@@ -77,6 +63,8 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
     }
 
     public void enterNIFandPINobt (Nif nif, Date valDate) throws NifNotRegisteredException, IncorrectValDateException, AnyMobileRegisteredException, ConnectException, NotValidCredException {
+        citz.setNif(nif);
+        citz.setValidationDate(valDate);
         // Assuming auth method is Cl@ve PIN
         if (authMethod.sendPIN(nif, valDate)) {
             System.out.println("Se envia el PIN al usuario con DNI -> " + nif.getNif());
@@ -100,10 +88,6 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
         }
     }
     public  void enterForm (Citizen citz, Goal goal) throws IncompleteFormException, IncorrectVerificationException, ConnectException {
-        citz.setNif(citz.getNif());
-        citz.
-
-
 
     }
 
