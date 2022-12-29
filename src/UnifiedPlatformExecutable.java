@@ -49,7 +49,7 @@ public class UnifiedPlatformExecutable {
 
     private static String selectCertificate() {
         System.out.println("Seleccionar el trámite deseado " +
-                "\n1. Obtener el certificado de antecedentes penales\n____________________________________________");
+                "\n1. Obtener el certificado de antecedentes penales\n___________________________________________");
 
         String chosenCertf = keyboard.nextLine();
         up.selectCriminalReportCertf();
