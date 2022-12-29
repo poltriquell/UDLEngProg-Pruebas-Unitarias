@@ -34,7 +34,7 @@ public class ClavePINCertificationAuthority implements CertificationAuthorityInt
 
     public boolean checkPIN(Nif nif, SmallCode pin) throws NotValidPINException, ConnectException {
         if (!pin.equals(citizen.getPIN()))
-            throw new NotValidPINException("PIN incorrecte");
+            throw new NotValidPINException("PIN incorrecto");
 
         return true;
     }

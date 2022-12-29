@@ -27,7 +27,7 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
     Goal g;
     public JusticeMinistry justiceMinistry;
 
-    public static ArrayList<String> possibleAuthenticationMethods;
+    public ArrayList<String> possibleAuthenticationMethods;
 
     public UnifiedPlatform() throws WrongMobileFormatException, WrongNifFormatException, IncompleteFormException, IncorrectVerificationException, ConnectException {
 
@@ -49,7 +49,7 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
     public void selectJusMin () {
         System.out.println("Se ha hecho click en la sección  Ministerio de Justicia en el mosaico inicial.");
     }
-    public void selectProcedures () {
+    public void selectProcedures() {
         System.out.println("Se ha hecho click en el enlace \"Trámites\" de la sección de la SS.");
     }
     public void selectCriminalReportCertf () {
@@ -65,9 +65,9 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
     public void enterNIFandPINobt (Nif nif, Date valDate) throws NifNotRegisteredException, IncorrectValDateException, AnyMobileRegisteredException, ConnectException, NotValidCredException {
         citz.setNif(nif);
         citz.setValidationDate(valDate);
-        // Assuming auth method is Cl@ve PIN
+        //Como se indica en el contrato, sólo se usara el método de autenticación Cl@ve PIN
         if (authMethod.sendPIN(nif, valDate)) {
-            System.out.println("Se envia el PIN al usuario con DNI -> " + nif.getNif());
+            System.out.println("Se envia el PIN al usuario con DNI -> " + citz.getNif());
         } else {
             throw new ConnectException("Ha ocurrido un error al enviar el PIN al número de teléfono móvil correspondiente.");
         }
@@ -147,20 +147,4 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
         }
     }
 
-    public static void main(String[] args) {
-        byte opc = 1;
-        possibleAuthenticationMethods = new ArrayList<>();
-
-        possibleAuthenticationMethods.add("Cl@ve PIN");
-        possibleAuthenticationMethods.add("Cl@ve Permanente");
-
-        System.out.println("Se ha seleccionado el metodo :" + possibleAuthenticationMethods.get(opc - 1));
-        String selectedAuthenticationMethod = possibleAuthenticationMethods.get(opc - 1);
-        System.out.println("Se ha seleccionado el siguiente método de autenticación : " + selectedAuthenticationMethod);
-
-        opc = 2;
-        System.out.println("Se ha seleccionado el metodo :" + opc + " " + possibleAuthenticationMethods.get(opc-1));
-        selectedAuthenticationMethod = possibleAuthenticationMethods.get(opc - 1);
-        System.out.println("Se ha seleccionado el siguiente método de autenticación : " + selectedAuthenticationMethod);
-    }
 }
