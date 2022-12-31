@@ -8,7 +8,30 @@ import services.exceptions.IncorrectVerificationException;
 public class GPDImpl implements GPD {
     @Override
     public boolean verifyData(Citizen persData, Goal goal) throws IncorrectVerificationException, ConnectException {
-        System.out.println("Se ha verificado la identidad del ciudadano " + persData.getName() + " con el objetivo " + goal.getGoalType() + " con éxito.");
+        verifyCitizen(persData);
+        registerProced(goal);
         return true;
+    }
+
+    private void verifyCitizen(Citizen persData){
+        System.out.println("\033[32mVerificando la información del ciudadano...\033[0m");
+        //Make a pause to simulate the verification process
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Citizen "+persData.getName() + " verified.");
+    }
+
+    private void registerProced(Goal goal){
+        System.out.println("\033[32mRegistrando procedimiento para\033[0m " + goal.getDetailedGoal() + "...");
+        //Make a pause to simulate the verification process
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Procedure registered.");
     }
 }

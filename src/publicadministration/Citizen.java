@@ -67,6 +67,9 @@ public class Citizen {
     public void setNif(Nif nif) {
         this.nif = nif;
     }
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public void setPDFDocument(PDFDocument document) {
         this.document = document;

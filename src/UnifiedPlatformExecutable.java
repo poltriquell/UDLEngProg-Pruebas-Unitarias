@@ -1,6 +1,8 @@
 import citizenmanagementplatform.UnifiedPlatformInterface;
 import citizenmanagementplatform.UnifiedPlatform;
+import citizenmanagementplatform.exceptions.IncompleteFormException;
 import data.*;
+import exceptions.WrongGoalFormatException;
 import exceptions.WrongNifFormatException;
 import exceptions.WrongSmallCodeFormatException;
 import publicadministration.Citizen;
@@ -30,7 +32,10 @@ public class UnifiedPlatformExecutable {
         selectAuthMethod();
         introduceNIFandValDate();
         introducePIN();
+        enterForm();
 
+        okVerificacion();
+        importeAPagar();
     }
 
     private static String selectMinistry() {
@@ -70,6 +75,10 @@ public class UnifiedPlatformExecutable {
     }
 
     private static void introduceNIFandValDate() throws WrongNifFormatException, NotValidCredException, IncorrectValDateException, NifNotRegisteredException, AnyMobileRegisteredException, ConnectException, WrongMobileFormatException, WrongSmallCodeFormatException {
+        System.out.println("Introducir el Nombre:");
+        String name = keyboard.nextLine(); //Take the nif code from the user
+        citizen.setName(name);
+
         System.out.println("Introducir el NIF:");
         String nifCode = keyboard.nextLine(); //Take the nif code from the user
         Nif newNif = new Nif(nifCode); //Create a new Nif object with the nif code
@@ -96,5 +105,22 @@ public class UnifiedPlatformExecutable {
     private static void introducePIN() throws WrongSmallCodeFormatException, NotValidPINException, DigitalSignatureException, IOException, ConnectException {
         String PINcode = keyboard.nextLine();
         up.enterPIN(new SmallCode(PINcode));
+    }
+
+    private static void enterForm() throws IOException, ConnectException, DigitalSignatureException, WrongNifFormatException, NotValidCredException, IncorrectValDateException, NifNotRegisteredException, AnyMobileRegisteredException, WrongMobileFormatException, WrongSmallCodeFormatException, WrongGoalFormatException, IncompleteFormException, IncorrectVerificationException {
+        System.out.println("Introduce el detalle del objetivo del certificado:");
+        String goal = keyboard.nextLine();
+        System.out.println("Introduce el tipo de objetivo del certificado:");
+        String goalType = keyboard.nextLine();
+        goalTypes newGoalType = goalTypes.valueOf(goalType);
+        up.enterForm(citizen, new Goal(goal, newGoalType));
+    }
+
+    private static void okVerificacion(){
+        System.out.println("\033[36mVerificación correcta\033[0m");
+    }
+
+    private static void importeAPagar() throws IOException, ConnectException, DigitalSignatureException, WrongNifFormatException, NotValidCredException, IncorrectValDateException, NifNotRegisteredException, AnyMobileRegisteredException, WrongMobileFormatException, WrongSmallCodeFormatException, WrongGoalFormatException, IncompleteFormException, IncorrectVerificationException {
+        System.out.println("El importe a pagar es de 15 euros");
     }
 }

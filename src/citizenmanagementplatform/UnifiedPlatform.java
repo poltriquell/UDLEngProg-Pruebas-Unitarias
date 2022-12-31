@@ -14,6 +14,7 @@ import publicadministration.exceptions.DigitalSignatureException;
 import publicadministration.exceptions.WrongMobileFormatException;
 import services.CertificationAuthority;
 import services.CertificationAuthorityInterface;
+import services.GPDImpl;
 import services.JusticeMinistry;
 import services.exceptions.*;
 
@@ -34,9 +35,6 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
 
         this.possibleAuthenticationMethods = new ArrayList<>(); //Create the list of possible authentication methods
         setAuthenticationMethods(); // Set the possible authentication methods into the ArrayList
-        selectAuthMethod((byte) 1); // Select the authentication method to use (1 = Clave Pin) (2 = Clave Permanente)
-
-        enterForm(this.citz, g); // Enter the form with the citizen and the goal
 
     }
 
@@ -58,7 +56,6 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
     }
     public void selectAuthMethod (byte opc) {
         // Assuming that Authentication methods are stored in the same order as they are displayed to the user in the GUI
-        System.out.println("Se ha seleccionado el metodo :" + opc + " " + possibleAuthenticationMethods.get(opc-1));
         String selectedAuthenticationMethod = possibleAuthenticationMethods.get(opc - 1);
         System.out.println("Se ha seleccionado el siguiente método de autenticación : " + selectedAuthenticationMethod);
     }
@@ -81,20 +78,13 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
         //Create JUSTICE MINISTRY CLASS
         if (authMethod.checkPIN(citz.getNif(), pin)) {
             System.out.println("El PIN introducido es correcto y se corresponde con el generado por el sistema previamente. Se indica al usuario de su vigencia.");
-            if (justiceMinistry != null) {
-                PDFDocument pdf = justiceMinistry.getCriminalRecordCertf(citz, g);
-                citz.setPDFDocument(pdf);
-                pdf.openDoc(pdf.getPath());
-                System.out.println("Se procede a mostrar el certificado de antecedentes penales.");
-            } else {
-                System.out.println("No se ha seleccionado ningún ministerio de justicia.");
-            }
         } else {
             throw new NotValidPINException("El PIN introducido no es correcto y no se corresponde con el generado por el sistema previamente. Se indica al usuario que podria no estar vigente.");
         }
     }
     public  void enterForm (Citizen citz, Goal goal) throws IncompleteFormException, IncorrectVerificationException, ConnectException {
-
+        GPDImpl gpd = new GPDImpl();
+        gpd.verifyData(citz, goal);
     }
 
     public void enterCred (Nif nif, Password passw) throws NifNotRegisteredException, NotValidCredException, AnyMobileRegisteredException, ConnectException {
