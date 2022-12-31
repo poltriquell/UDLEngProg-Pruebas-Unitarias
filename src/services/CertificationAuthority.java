@@ -27,12 +27,11 @@ public class CertificationAuthority implements CertificationAuthorityInterface{
         if (citizen.getMobileNumb() == null) {
             throw new AnyMobileRegisteredException("No hay ningún número de móvil registrado.");
         }
-
         return true;
     }
 
     @Override
-    public boolean checkPIN(Nif nif, SmallCode pin) throws NotValidPINException, ConnectException {
+    public boolean checkPIN(Nif nif, SmallCode pin) throws NotValidPINException{
         if (!pin.equals(citizen.getPIN())) {
             throw new NotValidPINException("El PIN introducido no es correcto.");
         }

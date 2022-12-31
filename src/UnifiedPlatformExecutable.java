@@ -3,6 +3,7 @@ import citizenmanagementplatform.UnifiedPlatform;
 import data.*;
 import exceptions.WrongNifFormatException;
 import exceptions.WrongSmallCodeFormatException;
+import publicadministration.Citizen;
 import publicadministration.exceptions.DigitalSignatureException;
 import publicadministration.exceptions.WrongMobileFormatException;
 import services.exceptions.*;
@@ -10,13 +11,13 @@ import services.exceptions.*;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.Scanner;
 
 public class UnifiedPlatformExecutable {
 
     static UnifiedPlatform up;
     static Scanner keyboard = new Scanner(System.in);
+    static Citizen citizen = new Citizen();
 
     public static void main(String[] args) throws Exception {
         up = new UnifiedPlatform();
@@ -68,24 +69,32 @@ public class UnifiedPlatformExecutable {
         up.selectAuthMethod(Byte.parseByte(method));
     }
 
-    private static void introduceNIFandValDate() throws WrongNifFormatException, NotValidCredException, IncorrectValDateException, NifNotRegisteredException, AnyMobileRegisteredException, ConnectException, WrongMobileFormatException {
+    private static void introduceNIFandValDate() throws WrongNifFormatException, NotValidCredException, IncorrectValDateException, NifNotRegisteredException, AnyMobileRegisteredException, ConnectException, WrongMobileFormatException, WrongSmallCodeFormatException {
         System.out.println("Introducir el NIF:");
-        String nifCode = keyboard.nextLine();
-        Nif newNif = new Nif(nifCode);
+        String nifCode = keyboard.nextLine(); //Take the nif code from the user
+        Nif newNif = new Nif(nifCode); //Create a new Nif object with the nif code
+        citizen.setNif(newNif); //Set the citizen's nif
 
         System.out.println("Introducir fecha de validación en formato dd/mm/aaaa");
         String date = keyboard.nextLine();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate valDate = LocalDate.parse(date, formatter);
+        citizen.setValidationDate(valDate);
 
-        up.enterNIFandPINobt(newNif, valDate);
+        System.out.println("Introducir número de teléfono móvil:");
+        String mobile = keyboard.nextLine();
+        citizen.setMobileNumb(new String(mobile));
+
+
+        up.enterNIFandPINobt(citizen.getNif(), citizen.getValidationDate());
         String PIN = SmallCode.generateSmallCode();
+        citizen.setPIN(new SmallCode(PIN));
         System.out.println("PIN generado: " + PIN);
+
     }
 
     private static void introducePIN() throws WrongSmallCodeFormatException, NotValidPINException, DigitalSignatureException, IOException, ConnectException {
         String PINcode = keyboard.nextLine();
-        SmallCode PIN = new SmallCode(PINcode);
-        up.enterPIN(PIN);
+        up.enterPIN(new SmallCode(PINcode));
     }
 }

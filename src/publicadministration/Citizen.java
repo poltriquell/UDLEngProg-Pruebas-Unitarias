@@ -1,13 +1,11 @@
 package publicadministration;
 
 import data.Nif;
-import data.Password;
 import data.SmallCode;
 import exceptions.WrongNifFormatException;
 import publicadministration.exceptions.WrongMobileFormatException;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Citizen {
 
@@ -26,6 +24,20 @@ public class Citizen {
         this.name = name;
         this.address = address;
         this.mobileNumb = mobile;
+    }
+
+    public Citizen(String name,Nif nif, String address, String mobile) throws WrongMobileFormatException, WrongNifFormatException { //Constructor para el caso de que el usuario ya tenga un NIF, arreglado después del mensade del CV
+        checkValidCitizen(name, address, mobile);
+        this.nif = nif;
+        this.name = name;
+        this.address = address;
+        this.mobileNumb = mobile;
+    }
+    public Citizen(){
+        this.nif = null;
+        this.name = null;
+        this.address = null;
+        this.mobileNumb = null;
     }
 
     private void checkValidCitizen(String name, String add, String mobile) throws WrongMobileFormatException {
@@ -62,6 +74,10 @@ public class Citizen {
 
     public void setValidationDate(LocalDate validationDate) {
         this.validationDate = validationDate;
+    }
+
+    public void setPIN(SmallCode PIN) {
+        this.PIN = PIN;
     }
 
     public void setMobileNumb(String mobileNumb) {
@@ -103,4 +119,7 @@ public class Citizen {
         return "Citizen{ nif= " + nif + " name= " + name + " address= " + address + " mobileNumb= " + mobileNumb + "}";
     }
 
+    public LocalDate getValidationDate() {
+        return validationDate;
+    }
 }

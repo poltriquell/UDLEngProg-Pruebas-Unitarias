@@ -23,10 +23,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class UnifiedPlatform implements UnifiedPlatformInterface {
-    Citizen citz;
+    Citizen citz = new Citizen();
     CertificationAuthorityInterface authMethod;
     Goal g;
-    public JusticeMinistry justiceMinistry;
+    private JusticeMinistry justiceMinistry;
 
     public static ArrayList<String> possibleAuthenticationMethods;
 
@@ -64,9 +64,9 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
     }
 
     public void enterNIFandPINobt (Nif nif, LocalDate valDate) throws NifNotRegisteredException, IncorrectValDateException, AnyMobileRegisteredException, ConnectException, NotValidCredException, WrongMobileFormatException, WrongNifFormatException {
-        citz = new Citizen("Jake Peralta", "Calle Hispanidad 12", "612101210");
         citz.setNif(nif);
         citz.setValidationDate(valDate);
+        citz.setMobileNumb(new String("666666666")); // We set a dummy mobile number
         authMethod = new CertificationAuthority(citz);
 
         //Como se indica en el contrato, sólo se usara el método de autenticación Cl@ve PIN
@@ -77,6 +77,8 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
         }
     }
     public void enterPIN (SmallCode pin) throws NotValidPINException, ConnectException, IOException, DigitalSignatureException {
+        citz.setPIN(pin);
+        //Create JUSTICE MINISTRY CLASS
         if (authMethod.checkPIN(citz.getNif(), pin)) {
             System.out.println("El PIN introducido es correcto y se corresponde con el generado por el sistema previamente. Se indica al usuario de su vigencia.");
             if (justiceMinistry != null) {
