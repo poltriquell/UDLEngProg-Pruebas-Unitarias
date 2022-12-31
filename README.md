@@ -10,13 +10,6 @@ _Queremos hacer especial mención a todos aquellos que nos han ayudado a tirar e
 * **Enric Tobeña Casanovas** - *Trabajo Inicial e Implementación del Proyecto* - [Enric-Tobena](https://github.com/Enric-Tobena)
 * **Pol Triquell Lombardo** - *Trabajo Inicial y Documentación* - [poltriquell](https://github.com/poltriquell)
 
-## Expresiones de Gratitud 🎁
-
-* Comenta a otros sobre este proyecto 📢
-* Invita una cerveza 🍺 o un café ☕ a alguien del equipo. 
-* Da las gracias públicamente 🤓.
-* etc.
-
 
 
 ---
