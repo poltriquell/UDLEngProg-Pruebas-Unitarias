@@ -33,7 +33,7 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
 
     public UnifiedPlatform() throws WrongMobileFormatException, WrongNifFormatException, IncompleteFormException, IncorrectVerificationException, ConnectException {
 
-        this.possibleAuthenticationMethods = new ArrayList<>(); //Create the list of possible authentication methods
+        possibleAuthenticationMethods = new ArrayList<>(); //Create the list of possible authentication methods
         setAuthenticationMethods(); // Set the possible authentication methods into the ArrayList
 
     }

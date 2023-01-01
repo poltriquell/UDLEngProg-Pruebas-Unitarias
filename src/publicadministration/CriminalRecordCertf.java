@@ -75,8 +75,14 @@ public class CriminalRecordCertf extends PDFDocument {
 
     @Override
     public String toString() {
-        StringBuilder stringBuilder = new StringBuilder();
-        return stringBuilder.append("nif" + nif).append("name" + name).append("goal" + goal).append("digSign" + digSign).append("crimConvs" + crimConvs).toString();
+        StringBuilder stringBuilder = new StringBuilder("CERTIFICADO DE ANTECEDENTES PENALES: ");
+        stringBuilder.append(nif.toString() + "\n");
+        stringBuilder.append(name.toString() + "\n");
+        stringBuilder.append(goal.toString() + "\n");
+        stringBuilder.append(digSign.toString() + "\n");
+        stringBuilder.append(crimConvs.toString() + "\n");
+        
+        return stringBuilder.toString();
     }
 
 }

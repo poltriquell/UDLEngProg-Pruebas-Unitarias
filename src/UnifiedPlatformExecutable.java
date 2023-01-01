@@ -7,6 +7,8 @@ import exceptions.WrongSmallCodeFormatException;
 import publicadministration.Citizen;
 import publicadministration.CriminalRecordCertf;
 import publicadministration.exceptions.DigitalSignatureException;
+import publicadministration.exceptions.RepeatedCrimConvictionException;
+import publicadministration.exceptions.WrongCrimConvictionFormatException;
 import publicadministration.exceptions.WrongMobileFormatException;
 import services.*;
 import services.JusticeMinistryImpl;
@@ -45,6 +47,7 @@ public class UnifiedPlatformExecutable {
         registerPayment();
 
         opcionesCertificado();
+        printDocument();
     }
 
     private static String selectMinistry() {
@@ -120,7 +123,7 @@ public class UnifiedPlatformExecutable {
         System.out.println("Introduce el detalle del objetivo del certificado:");
         String goalStr = keyboard.nextLine();
 
-        System.out.println("Introduce el tipo de objetivo del certificado:");
+        System.out.println("Introduce el tipo de objetivo del certificado (WORKWITHMINORS, GAMESECTOR, PUBLICWORKERS, PUBLICADMINCONSORTIUM):");
         String goalType = keyboard.nextLine();
         goalTypes newGoalType = goalTypes.valueOf(goalType);
         Goal goal = new Goal(goalStr, newGoalType);
@@ -146,30 +149,43 @@ public class UnifiedPlatformExecutable {
         String cvv = keyboard.nextLine();
 
         enterCardData(cardNumb, expDate, cvv);
-
     }
 
     private static void enterCardData(String cardNumb, String expDate, String cvv) throws NotValidPaymentDataException, InsufficientBalanceException, ConnectException {
         CASImpl cas = new CASImpl();
-        cas.askForApproval(String.valueOf(000000000), cardNumb, new String(expDate), new BigDecimal(15));
+        cas.askForApproval("000000000", cardNumb, expDate, new BigDecimal(15));
     }
 
     private static void registerPayment() {
         //ACTUALIZAR EL ESTADO DE LA TRANSACCIÓN
     }
 
-    private static void opcionesCertificado() throws DigitalSignatureException, java.net.ConnectException {
+    private static void opcionesCertificado() throws DigitalSignatureException, java.net.ConnectException, WrongCrimConvictionFormatException, RepeatedCrimConvictionException {
         System.out.println("¿Desea el certificado apostillado? \n1. Sí \n2. No");
         String opcion = keyboard.nextLine();
 
         if (opcion.equals("1")) {
             JusticeMinistryImpl generateCertf = new JusticeMinistryImpl();
             CriminalRecordCertf certificate = generateCertf.getCriminalRecordCertf(citizen, goal);
-            System.out.println("El certificado SIN apostilla ha sido generado correctamente");
-            System.out.println(certificate.toString());
+            System.out.println("\033[32mEl certificado SIN apostilla en formato PDF ha sido generado correctamente\033[0m");
+            System.out.println(certificate);
 
         } else {
             System.out.println("Opción de apostillado no implementada");
         }
     }
+
+    private static void printDocument() throws InterruptedException {
+        System.out.println("¿Desea imprimir el documento? \n1. Sí \n2. No");
+        String opcion = keyboard.nextLine();
+
+        if (opcion.equals("1")) {
+            System.out.println("\033[32mIniciando el proceso de impresión\033[0m");
+            Thread.sleep(1500);
+            System.out.println("\033[36mImpresion completada\033[0m");
+        } else {
+            System.out.println("Opción de apostillado no implementada");
+        }
+    }
+
 }
