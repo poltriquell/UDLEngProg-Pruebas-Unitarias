@@ -6,7 +6,7 @@ import publicadministration.Citizen;
 import publicadministration.CrimConvictionsColl;
 import publicadministration.CriminalRecordCertf;
 
-public class JusticeMinistryImpl implements JusticeMinistry{
+public class JusticeMinistryImpl implements JusticeMinistry {
 
     @Override
     public CriminalRecordCertf getCriminalRecordCertf(Citizen citizen, Goal g){
