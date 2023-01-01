@@ -11,10 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import publicadministration.Citizen;
 import publicadministration.exceptions.WrongMobileFormatException;
-import services.exceptions.AnyMobileRegisteredException;
-import services.exceptions.ConnectException;
-import services.exceptions.IncorrectVerificationException;
-import services.exceptions.NifNotRegisteredException;
+import services.exceptions.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -37,7 +34,7 @@ public class ClavePINUnifiedPlatformTest {
         citz.setNif(new Nif("99571829E"));
 
         platform = new UnifiedPlatform();
-
+        platform.registerCitizen(citz.getNif(), LocalDate.of(2020, 1, 1));
         //citz.setValidationDate(LocalDate.of(1987, 1, 1));
         //citz.setValidationDate(LocalDate.now());
 
@@ -48,4 +45,25 @@ public class ClavePINUnifiedPlatformTest {
         platform.setAuthenticationMethod(new ClavePINCertificationAuthority(citz));
     }
 
+    @Test
+    public void notRegisteredNIFTest() throws NifNotRegisteredException, IncorrectValDateException, AnyMobileRegisteredException, ConnectException, NotValidCredException, WrongMobileFormatException, WrongNifFormatException {
+        var baddate = LocalDate.of(1999, 1, 1);
+        assertThrows(
+                NifNotRegisteredException.class,
+                () -> {
+                    platform.enterNIFandPINobt(new Nif("49255398R"), baddate);
+                });
+    }
+
+    @Test
+    public void enterBadDate() {
+        var baddate = LocalDate.of(1999, 1, 1);
+        assertThrows(
+                NifNotRegisteredException.class,
+                () -> {
+                    platform.enterNIFandPINobt(new Nif("49255398R"), baddate);
+                });
+
+
+    }
 }

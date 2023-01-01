@@ -24,8 +24,6 @@ public class JusticeMinistryImpl implements JusticeMinistry {
         certf = new CriminalRecordCertf(persD.getNif(), persD.getName(), g, new DigitalSignature(signDigitally()), new CrimConvictionsColl());
         verifyCitizen(persD);
         generatePDF(certf);
-
-        // registerProced(g);
         return certf;
     }
 

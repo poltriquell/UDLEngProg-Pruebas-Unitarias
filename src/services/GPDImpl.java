@@ -21,7 +21,7 @@ public class GPDImpl implements GPD {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println("Citizen "+persData.getName() + " verified.");
+        System.out.println("Citizen "+persData.getName() + " verificado.");
     }
 
     private void registerProced(Goal goal){
@@ -32,6 +32,6 @@ public class GPDImpl implements GPD {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println("Procedure registered.");
+        System.out.println("Selección de procedimiento realizado.");
     }
 }

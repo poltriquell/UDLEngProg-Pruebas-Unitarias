@@ -3,6 +3,7 @@ package citizenmanagementplatform;
 import citizenmanagementplatform.exceptions.BadPathException;
 import citizenmanagementplatform.exceptions.IncompleteFormException;
 import citizenmanagementplatform.exceptions.PrintingException;
+import citizenmanagementplatform.exceptions.ProceduralException;
 import exceptions.WrongNifFormatException;
 import publicadministration.Citizen;
 import data.DocPath;
@@ -27,13 +28,13 @@ public interface UnifiedPlatformInterface {
     void selectCriminalReportCertf ();
     void selectAuthMethod (byte opc);
 
-    void enterNIFandPINobt (Nif nif, LocalDate valDate) throws NifNotRegisteredException, IncorrectValDateException, AnyMobileRegisteredException, ConnectException, NotValidCredException, WrongMobileFormatException, WrongNifFormatException;
-    void enterPIN (SmallCode pin) throws NotValidPINException, ConnectException, IOException, DigitalSignatureException;
-    void enterForm (Citizen citizen, Goal goal) throws IncompleteFormException, IncorrectVerificationException, ConnectException;
+    void enterNIFandPINobt (Nif nif, LocalDate valDate) throws NifNotRegisteredException, IncorrectValDateException, AnyMobileRegisteredException, ConnectException, NotValidCredException, WrongMobileFormatException, WrongNifFormatException, ProceduralException;
+    void enterPIN (SmallCode pin) throws NotValidPINException, ConnectException, IOException, DigitalSignatureException, ProceduralException;
+    void enterForm (Citizen citizen, Goal goal) throws IncompleteFormException, IncorrectVerificationException, ConnectException, ProceduralException;
     void enterCred (Nif nif, Password passw) throws NifNotRegisteredException, NotValidCredException, AnyMobileRegisteredException, ConnectException;
     void realizePayment ();
-    void enterCardData (CreditCard cardD) throws IncompleteFormException, NotValidPaymentDataException, InsufficientBalanceException, ConnectException;
-    void obtainCertificate () throws BadPathException, DigitalSignatureException, ConnectException;
+    void enterCardData (CreditCard cardD) throws IncompleteFormException, NotValidPaymentDataException, InsufficientBalanceException, ConnectException, ProceduralException;
+    void obtainCertificate () throws BadPathException, DigitalSignatureException, ConnectException, ProceduralException;
     void printDocument () throws BadPathException, PrintingException;
 
     // The setter methods for injecting the dependences

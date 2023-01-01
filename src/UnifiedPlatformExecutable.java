@@ -1,5 +1,6 @@
 import citizenmanagementplatform.UnifiedPlatform;
 import citizenmanagementplatform.exceptions.IncompleteFormException;
+import citizenmanagementplatform.exceptions.ProceduralException;
 import data.*;
 import exceptions.WrongGoalFormatException;
 import exceptions.WrongNifFormatException;
@@ -86,7 +87,7 @@ public class UnifiedPlatformExecutable {
         up.selectAuthMethod(Byte.parseByte(method));
     }
 
-    private static void introduceNIFandValDate() throws WrongNifFormatException, NotValidCredException, IncorrectValDateException, NifNotRegisteredException, AnyMobileRegisteredException, ConnectException, WrongMobileFormatException, WrongSmallCodeFormatException {
+    private static void introduceNIFandValDate() throws WrongNifFormatException, NotValidCredException, IncorrectValDateException, NifNotRegisteredException, AnyMobileRegisteredException, ConnectException, WrongMobileFormatException, WrongSmallCodeFormatException, ProceduralException {
         System.out.println("Introducir el Nombre:");
         String name = keyboard.nextLine(); //Take the nif code from the user
         citizen.setName(name);
@@ -96,7 +97,7 @@ public class UnifiedPlatformExecutable {
         Nif newNif = new Nif(nifCode); //Create a new Nif object with the nif code
         citizen.setNif(newNif); //Set the citizen's nif
 
-        System.out.println("Introducir fecha de validación en formato dd/mm/aaaa");
+        System.out.println("Introducir fecha de validación en formato dd/mm/aaaa:");
         String date = keyboard.nextLine();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate valDate = LocalDate.parse(date, formatter);
@@ -104,8 +105,9 @@ public class UnifiedPlatformExecutable {
 
         System.out.println("Introducir número de teléfono móvil:");
         String mobile = keyboard.nextLine();
-        citizen.setMobileNumb(new String(mobile));
+        citizen.setMobileNumb(mobile);
 
+        up.registerCitizen(newNif, valDate);
 
         up.enterNIFandPINobt(citizen.getNif(), citizen.getValidationDate());
         String PIN = SmallCode.generateSmallCode();
@@ -114,12 +116,12 @@ public class UnifiedPlatformExecutable {
 
     }
 
-    private static void introducePIN() throws WrongSmallCodeFormatException, NotValidPINException, DigitalSignatureException, IOException, ConnectException {
+    private static void introducePIN() throws WrongSmallCodeFormatException, NotValidPINException, DigitalSignatureException, IOException, ConnectException, ProceduralException {
         String PINcode = keyboard.nextLine();
         up.enterPIN(new SmallCode(PINcode));
     }
 
-    private static void enterForm() throws ConnectException, WrongGoalFormatException, IncompleteFormException, IncorrectVerificationException {
+    private static void enterForm() throws ConnectException, WrongGoalFormatException, IncompleteFormException, IncorrectVerificationException, ProceduralException {
         System.out.println("Introduce el detalle del objetivo del certificado:");
         String goalStr = keyboard.nextLine();
 
