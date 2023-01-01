@@ -5,15 +5,60 @@ import data.Goal;
 import publicadministration.Citizen;
 import publicadministration.CrimConvictionsColl;
 import publicadministration.CriminalRecordCertf;
+import publicadministration.exceptions.DigitalSignatureException;
+
+import java.net.ConnectException;
 
 public class JusticeMinistryImpl implements JusticeMinistry {
 
+    CriminalRecordCertf certf;
+
     @Override
-    public CriminalRecordCertf getCriminalRecordCertf(Citizen citizen, Goal g){
-        return new CriminalRecordCertf(citizen.getNif(), citizen.getName(), g, new DigitalSignature(signDigitally()), new CrimConvictionsColl());
+    public CriminalRecordCertf getCriminalRecordCertf(Citizen persD, Goal g){
+        verifyCitizen(persD);
+        certf = new CriminalRecordCertf(persD.getNif(), persD.getName(), g, new DigitalSignature(signDigitally()), new CrimConvictionsColl());
+        generatePDF(certf);
+
+        // registerProced(g);
+        return certf;
     }
 
     private byte[] signDigitally() {
         return new byte[]{1, 2, 3};
     }
+
+    private void verifyCitizen(Citizen citizen){
+        System.out.println("\033[32mVerificando la existencia de condenas penales...\033[0m");
+        //Make a pause to simulate the verification process
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Citizen "+citizen.getNif() + " verificado.");
+    }
+
+    private  void generatePDF(CriminalRecordCertf certf) {
+        System.out.println("\033[32mGenerando certificado en formato PDF...\033[0m");
+        //Make a pause to simulate the generation process
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Certificado en formato PDF generado.");
+    }
+
+
+    private void registerProced(Goal goal){
+        System.out.println("\033[32mRegistrando procedimiento para\033[0m " + goal.getDetailedGoal() + "...");
+        //Make a pause to simulate the verification process
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Procedure registered.");
+    }
+
 }
