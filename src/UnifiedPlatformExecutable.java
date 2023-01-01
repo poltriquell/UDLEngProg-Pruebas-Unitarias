@@ -5,9 +5,11 @@ import exceptions.WrongGoalFormatException;
 import exceptions.WrongNifFormatException;
 import exceptions.WrongSmallCodeFormatException;
 import publicadministration.Citizen;
+import publicadministration.CriminalRecordCertf;
 import publicadministration.exceptions.DigitalSignatureException;
 import publicadministration.exceptions.WrongMobileFormatException;
-import services.CASImpl;
+import services.*;
+import services.JusticeMinistryImpl;
 import services.exceptions.*;
 
 import java.io.IOException;
@@ -22,6 +24,7 @@ public class UnifiedPlatformExecutable {
     static UnifiedPlatform up;
     static Scanner keyboard = new Scanner(System.in);
     static Citizen citizen = new Citizen();
+    static Goal goal = null;
 
     public static void main(String[] args) throws Exception {
         up = new UnifiedPlatform();
@@ -115,18 +118,21 @@ public class UnifiedPlatformExecutable {
 
     private static void enterForm() throws ConnectException, WrongGoalFormatException, IncompleteFormException, IncorrectVerificationException {
         System.out.println("Introduce el detalle del objetivo del certificado:");
-        String goal = keyboard.nextLine();
+        String goalStr = keyboard.nextLine();
+
         System.out.println("Introduce el tipo de objetivo del certificado:");
         String goalType = keyboard.nextLine();
         goalTypes newGoalType = goalTypes.valueOf(goalType);
-        up.enterForm(citizen, new Goal(goal, newGoalType));
+        Goal goal = new Goal(goalStr, newGoalType);
+        UnifiedPlatformExecutable.goal = goal;
+        up.enterForm(citizen, goal);
     }
 
-    private static void okVerificacion(){
+    private static void okVerificacion() {
         System.out.println("\033[36mVerificación correcta\033[0m");
     }
 
-    private static void importeAPagar(){
+    private static void importeAPagar() {
         System.out.println("El importe a pagar es de 15 euros");
     }
 
@@ -145,21 +151,25 @@ public class UnifiedPlatformExecutable {
 
     private static void enterCardData(String cardNumb, String expDate, String cvv) throws NotValidPaymentDataException, InsufficientBalanceException, ConnectException {
         CASImpl cas = new CASImpl();
-        cas.askForApproval(new String(String.valueOf(000000000)), cardNumb, new String(expDate) ,new BigDecimal(15));
+        cas.askForApproval(String.valueOf(000000000), cardNumb, new String(expDate), new BigDecimal(15));
     }
 
-    private static void registerPayment(){
+    private static void registerPayment() {
         //ACTUALIZAR EL ESTADO DE LA TRANSACCIÓN
     }
 
-    private static void opcionesCertificado(){
-        System.out.println("¿Desea obtener el certificado? \n1. Sí \n2. No");
+    private static void opcionesCertificado() throws DigitalSignatureException, java.net.ConnectException {
+        System.out.println("¿Desea el certificado apostillado? \n1. Sí \n2. No");
         String opcion = keyboard.nextLine();
-        if(opcion.equals("1")){
-            System.out.println("El certificado se ha generado correctamente");
-        }else{
-            System.out.println("El certificado no se ha generado");
+
+        if (opcion.equals("1")) {
+            JusticeMinistryImpl generateCertf = new JusticeMinistryImpl();
+            CriminalRecordCertf certificate = generateCertf.getCriminalRecordCertf(citizen, goal);
+            System.out.println("El certificado SIN apostilla ha sido generado correctamente");
+            System.out.println(certificate.toString());
+
+        } else {
+            System.out.println("Opción de apostillado no implementada");
         }
     }
-
 }

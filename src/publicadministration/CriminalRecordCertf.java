@@ -3,6 +3,7 @@ package publicadministration;
 import data.DigitalSignature;
 import data.Goal;
 import data.Nif;
+import org.junit.platform.commons.util.ToStringBuilder;
 
 public class CriminalRecordCertf extends PDFDocument {
 
@@ -72,4 +73,10 @@ public class CriminalRecordCertf extends PDFDocument {
     public CrimConvictionsColl getCrimConvs() {
         return crimConvs;
     }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this).append("nif", nif).append("name", name).append("goal", goal).append("digSign", digSign).append("crimConvs", crimConvs).toString();
+    }
+
 }
