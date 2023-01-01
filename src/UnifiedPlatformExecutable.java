@@ -1,4 +1,3 @@
-import citizenmanagementplatform.UnifiedPlatformInterface;
 import citizenmanagementplatform.UnifiedPlatform;
 import citizenmanagementplatform.exceptions.IncompleteFormException;
 import data.*;
@@ -8,11 +7,14 @@ import exceptions.WrongSmallCodeFormatException;
 import publicadministration.Citizen;
 import publicadministration.exceptions.DigitalSignatureException;
 import publicadministration.exceptions.WrongMobileFormatException;
+import services.CASImpl;
 import services.exceptions.*;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Scanner;
 
 public class UnifiedPlatformExecutable {
@@ -36,6 +38,10 @@ public class UnifiedPlatformExecutable {
 
         okVerificacion();
         importeAPagar();
+        realizePayment();
+        registerPayment();
+
+        opcionesCertificado();
     }
 
     private static String selectMinistry() {
@@ -107,7 +113,7 @@ public class UnifiedPlatformExecutable {
         up.enterPIN(new SmallCode(PINcode));
     }
 
-    private static void enterForm() throws IOException, ConnectException, DigitalSignatureException, WrongNifFormatException, NotValidCredException, IncorrectValDateException, NifNotRegisteredException, AnyMobileRegisteredException, WrongMobileFormatException, WrongSmallCodeFormatException, WrongGoalFormatException, IncompleteFormException, IncorrectVerificationException {
+    private static void enterForm() throws ConnectException, WrongGoalFormatException, IncompleteFormException, IncorrectVerificationException {
         System.out.println("Introduce el detalle del objetivo del certificado:");
         String goal = keyboard.nextLine();
         System.out.println("Introduce el tipo de objetivo del certificado:");
@@ -120,7 +126,40 @@ public class UnifiedPlatformExecutable {
         System.out.println("\033[36mVerificación correcta\033[0m");
     }
 
-    private static void importeAPagar() throws IOException, ConnectException, DigitalSignatureException, WrongNifFormatException, NotValidCredException, IncorrectValDateException, NifNotRegisteredException, AnyMobileRegisteredException, WrongMobileFormatException, WrongSmallCodeFormatException, WrongGoalFormatException, IncompleteFormException, IncorrectVerificationException {
+    private static void importeAPagar(){
         System.out.println("El importe a pagar es de 15 euros");
     }
+
+    private static void realizePayment() throws NotValidPaymentDataException, InsufficientBalanceException, ConnectException {
+        System.out.println("Introduce los datos de la tarjeta de crédito:");
+        System.out.println("Número de tarjeta:");
+        String cardNumb = keyboard.nextLine();
+        System.out.println("Fecha de caducidad en formato dd/mm/yyyy:");
+        String expDate = keyboard.nextLine();
+        System.out.println("CVV:");
+        String cvv = keyboard.nextLine();
+
+        enterCardData(cardNumb, expDate, cvv);
+
+    }
+
+    private static void enterCardData(String cardNumb, String expDate, String cvv) throws NotValidPaymentDataException, InsufficientBalanceException, ConnectException {
+        CASImpl cas = new CASImpl();
+        cas.askForApproval(new String(String.valueOf(000000000)), cardNumb, new String(expDate) ,new BigDecimal(15));
+    }
+
+    private static void registerPayment(){
+        //ACTUALIZAR EL ESTADO DE LA TRANSACCIÓN
+    }
+
+    private static void opcionesCertificado(){
+        System.out.println("¿Desea obtener el certificado? \n1. Sí \n2. No");
+        String opcion = keyboard.nextLine();
+        if(opcion.equals("1")){
+            System.out.println("El certificado se ha generado correctamente");
+        }else{
+            System.out.println("El certificado no se ha generado");
+        }
+    }
+
 }
