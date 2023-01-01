@@ -3,7 +3,6 @@ package publicadministration;
 import data.DigitalSignature;
 import data.Goal;
 import data.Nif;
-import org.junit.platform.commons.util.ToStringBuilder;
 
 public class CriminalRecordCertf extends PDFDocument {
 
