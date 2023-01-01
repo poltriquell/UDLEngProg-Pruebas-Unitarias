@@ -23,7 +23,7 @@ public class ClavePINCertificationAuthority implements CertificationAuthorityInt
             throw new NifNotRegisteredException("El NIF no está registrado.");
         }
         if (!date.equals(citizen.getValDate())) {
-            throw new NotValidCredException("La contraseña no es correcta.");
+            throw new NotValidCredException("La fecha no es correcta.");
         }
         if (citizen.getMobileNumb() == null) {
             throw new AnyMobileRegisteredException("No hay ningún número de móvil registrado.");

@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.Scanner;
 
 public class UnifiedPlatformExecutable {
@@ -31,7 +30,7 @@ public class UnifiedPlatformExecutable {
 
     public static void main(String[] args) throws Exception {
         up = new UnifiedPlatform();
-        System.out.println("\033[32mUnified Platform STARTED\033[0m");
+        System.out.println("\033[32mSe ha iniciado la ejecución de la Unified Platform\033[0m");
 
         selectMinistry();
         selectProcedure();
@@ -42,12 +41,12 @@ public class UnifiedPlatformExecutable {
         introducePIN();
         enterForm();
 
-        okVerificacion();
-        importeAPagar();
+        okVerification();
+        paymentImport();
         realizePayment();
         registerPayment();
 
-        opcionesCertificado();
+        certificateOptions();
         printDocument();
     }
 
@@ -133,11 +132,11 @@ public class UnifiedPlatformExecutable {
         up.enterForm(citizen, goal);
     }
 
-    private static void okVerificacion() {
+    private static void okVerification() {
         System.out.println("\033[36mVerificación correcta\033[0m");
     }
 
-    private static void importeAPagar() {
+    private static void paymentImport() {
         System.out.println("El importe a pagar es de 15 euros");
     }
 
@@ -162,7 +161,7 @@ public class UnifiedPlatformExecutable {
         //ACTUALIZAR EL ESTADO DE LA TRANSACCIÓN
     }
 
-    private static void opcionesCertificado() throws DigitalSignatureException, java.net.ConnectException, WrongCrimConvictionFormatException, RepeatedCrimConvictionException {
+    private static void certificateOptions() throws DigitalSignatureException, java.net.ConnectException, WrongCrimConvictionFormatException, RepeatedCrimConvictionException {
         System.out.println("¿Desea el certificado apostillado? \n1. Sí \n2. No");
         String opcion = keyboard.nextLine();
 
