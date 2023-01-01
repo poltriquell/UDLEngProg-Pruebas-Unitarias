@@ -76,7 +76,8 @@ public class CriminalRecordCertf extends PDFDocument {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("nif", nif).append("name", name).append("goal", goal).append("digSign", digSign).append("crimConvs", crimConvs).toString();
+        StringBuilder stringBuilder = new StringBuilder();
+        return stringBuilder.append("nif" + nif).append("name" + name).append("goal" + goal).append("digSign" + digSign).append("crimConvs" + crimConvs).toString();
     }
 
 }
