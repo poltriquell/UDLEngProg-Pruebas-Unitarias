@@ -12,10 +12,9 @@ import services.exceptions.*;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class ClavePINUnifiedPlatformTest {
-
+public class ClavePermanenteUnifiedPlatformTest {
     Citizen citz;
 
     UnifiedPlatform platform;
