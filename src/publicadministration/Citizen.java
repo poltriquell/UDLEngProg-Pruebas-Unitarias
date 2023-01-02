@@ -64,6 +64,11 @@ public class Citizen {
         return false;
     }
 
+    private void checkValidDate(LocalDate date) {
+        if(date == null) throw new NullPointerException("La fecha de validez no puede ser nula.");
+        if(date.isBefore(LocalDate.now())) throw new IllegalArgumentException("La fecha de validez no puede ser anterior a la fecha actual.");
+    }
+
     public void setNif(Nif nif) {
         this.nif = nif;
     }
@@ -76,6 +81,7 @@ public class Citizen {
     }
 
     public void setValidationDate(LocalDate validationDate) {
+        checkValidDate(validationDate);
         this.validationDate = validationDate;
     }
 

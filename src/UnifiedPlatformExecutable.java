@@ -2,17 +2,11 @@ import citizenmanagementplatform.UnifiedPlatform;
 import citizenmanagementplatform.exceptions.IncompleteFormException;
 import citizenmanagementplatform.exceptions.ProceduralException;
 import data.*;
-import exceptions.WrongGoalFormatException;
-import exceptions.WrongNifFormatException;
-import exceptions.WrongSmallCodeFormatException;
+import exceptions.*;
 import publicadministration.Citizen;
 import publicadministration.CriminalRecordCertf;
-import publicadministration.exceptions.DigitalSignatureException;
-import publicadministration.exceptions.RepeatedCrimConvictionException;
-import publicadministration.exceptions.WrongCrimConvictionFormatException;
-import publicadministration.exceptions.WrongMobileFormatException;
+import publicadministration.exceptions.*;
 import services.*;
-import services.JusticeMinistryImpl;
 import services.exceptions.*;
 
 import java.io.IOException;
@@ -109,9 +103,8 @@ public class UnifiedPlatformExecutable {
         up.registerCitizen(newNif, valDate);
 
         up.enterNIFandPINobt(citizen.getNif(), citizen.getValidationDate());
-        String PIN = SmallCode.generateSmallCode();
-        citizen.setPIN(new SmallCode(PIN));
-        System.out.println("PIN generado: " + PIN);
+
+        System.out.println("PIN generado: " + up.associatePIN());
 
     }
 

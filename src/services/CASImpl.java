@@ -19,6 +19,7 @@ public class CASImpl implements CAS{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        System.out.println("\033[32mTransacción "+ nTrans + " en curso...\033[0m");
         carryTrans(cardData,date,imp);
     }
 
@@ -31,7 +32,6 @@ public class CASImpl implements CAS{
             e.printStackTrace();
         }
         System. out .println("____________________________________________");
-        System.out.println("Transacción realizada con exito.");
         //Imprime el recibo con los datos de la transacción
         System.out.println("\033[32mRecibo de la transacción:\033[0m");
         System.out.println("Número de tarjeta: " + cardData);

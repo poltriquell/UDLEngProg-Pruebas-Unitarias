@@ -7,6 +7,7 @@ import citizenmanagementplatform.exceptions.ProceduralException;
 import dummiescertificationauthority.ClavePINCertificationAuthority;
 import dummiescertificationauthority.ClavePermanenteCertificationAuthority;
 import exceptions.WrongNifFormatException;
+import exceptions.WrongSmallCodeFormatException;
 import publicadministration.Citizen;
 import data.*;
 import publicadministration.CreditCard;
@@ -95,7 +96,8 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
 
         //Como se indica en el contrato, sólo se usara el método de autenticación Cl@ve PIN
         if (authMethod.sendPIN(nif, valDate)) {
-            System.out.println("Se envia el PIN al usuario con DNI -> " + citz.getNif());
+            nif = citz.getNif();
+            System.out.println("Se envia el PIN al usuario con DNI -> " + nif);
         } else {
             throw new ConnectException("Ha ocurrido un error al enviar el PIN al número de teléfono móvil correspondiente.");
         }
@@ -105,7 +107,6 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
     public void enterPIN (SmallCode pin) throws NotValidPINException, ConnectException, IOException, DigitalSignatureException, ProceduralException {
         if (!procedureInCourse || !isClavePINAuthenticationMethod || !clavePINInCourse) {throw new ProceduralException("No se puede seguir con la obtención del certificado de antecedentes penales debido a que no se han completado ciertos pasos anteriores.");}
 
-        citz.setPIN(pin);
         //Create JUSTICE MINISTRY CLASS
         if (authMethod.checkPIN(citz.getNif(), pin)) {
             System.out.println("El PIN introducido es correcto y se corresponde con el generado por el sistema previamente. Se indica al usuario de su vigencia.");
@@ -133,6 +134,12 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
 
             case 2 -> System.out.println("Los datos del usuario son correctos y se ha escogido el método reforzado.");
         }
+    }
+
+    public String associatePIN() throws WrongSmallCodeFormatException {
+        String pin = SmallCode.generateSmallCode();
+        citz.setPIN(new SmallCode(pin));
+        return pin;
     }
 
     public  void realizePayment () {
