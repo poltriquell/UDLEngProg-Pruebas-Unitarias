@@ -77,7 +77,7 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
         authMethod = new CertificationAuthority(citz);
         citz.setNif(nif);
         citz.setValidationDate(valDate);
-        citz.setMobileNumb(new String("666666666")); // We set a dummy mobile number
+        citz.setMobileNumb("666666666"); // We set a dummy mobile number
     }
 
     public void enterNIFandPINobt (Nif nif, LocalDate valDate) throws NifNotRegisteredException, IncorrectValDateException, AnyMobileRegisteredException, ConnectException, NotValidCredException, ProceduralException {
