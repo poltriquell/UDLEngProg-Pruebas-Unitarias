@@ -1,18 +1,14 @@
 package services;
 
-import publicadministration.CreditCard;
-import services.exceptions.ConnectException;
-import services.exceptions.InsufficientBalanceException;
 import services.exceptions.NotValidPaymentDataException;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
 
 public class CASImpl implements CAS{
 
     @Override
-    public void askForApproval(String nTrans, String cardData, String date, BigDecimal imp) throws NotValidPaymentDataException, InsufficientBalanceException, ConnectException {
+    public void askForApproval(String nTrans, String cardData, String date, BigDecimal imp) throws NotValidPaymentDataException {
         System.out.println("\033[32mVerificando los datos de la tarjeta de crédito...\033[0m");
         //Make a pause to simulate the verification process
         try {
@@ -31,7 +27,7 @@ public class CASImpl implements CAS{
         carryTrans(cardData,today,imp);
     }
 
-    private void carryTrans(String cardData, LocalDate date, BigDecimal imp) throws NotValidPaymentDataException, InsufficientBalanceException, ConnectException {
+    private void carryTrans(String cardData, LocalDate date, BigDecimal imp) {
         System.out.println("\033[32mRealizando la transacción...\033[0m");
         //Make a pause to simulate the verification process
         try {

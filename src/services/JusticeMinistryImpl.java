@@ -6,14 +6,11 @@ import publicadministration.Citizen;
 import publicadministration.CrimConviction;
 import publicadministration.CrimConvictionsColl;
 import publicadministration.CriminalRecordCertf;
-import publicadministration.exceptions.DigitalSignatureException;
 import publicadministration.exceptions.RepeatedCrimConvictionException;
 import publicadministration.exceptions.WrongCrimConvictionFormatException;
 
 import java.time.LocalDate;
 import java.util.Random;
-
-import java.net.ConnectException;
 
 public class JusticeMinistryImpl implements JusticeMinistry {
 
@@ -36,7 +33,7 @@ public class JusticeMinistryImpl implements JusticeMinistry {
         //Make a pause to simulate the verification process
 
         Random rndm = new Random();
-        if(rndm.nextInt(0, 1) == 0) {
+        if(rndm.nextInt(0, 10) > 5) {
             certf.getCrimConvs().addCriminalConviction(new CrimConviction(LocalDate.of(2022, 12, 27), "Driving while being drunk", "250€ fine"));
         }
 

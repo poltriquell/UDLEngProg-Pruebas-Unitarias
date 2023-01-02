@@ -3,11 +3,8 @@ package publicadministration;
 import data.Nif;
 import data.SmallCode;
 import publicadministration.exceptions.WrongCreditCardFormatException;
-import services.exceptions.NotValidPaymentDataException;
 
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
 
 public class CreditCard {
 
@@ -24,7 +21,6 @@ public class CreditCard {
         this.svc = c;
     }
 
-    @Deprecated
     private void checkCreditCard(String cNum, LocalDate d) throws WrongCreditCardFormatException {
         if(cNum == null) throw new NullPointerException("The card number cannot be null.");
         if(d == null) throw new NullPointerException("The expire date cannot be null.");

@@ -1,5 +1,4 @@
 import citizenmanagementplatform.UnifiedPlatform;
-import citizenmanagementplatform.exceptions.IncompleteFormException;
 import citizenmanagementplatform.exceptions.ProceduralException;
 import data.*;
 import exceptions.*;
@@ -9,7 +8,6 @@ import publicadministration.exceptions.*;
 import services.*;
 import services.exceptions.*;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -44,43 +42,53 @@ public class UnifiedPlatformExecutable {
         printDocument();
     }
 
-    private static String selectMinistry() {
-        System.out.println("Seleccionar el ministerio deseado " +
-                "\n1. Ministerio de Justicia \n2. Ministerio de Sanidad \n3. Ministerio de Educación \n4. Ministerio de Trabajo\n____________________________________________");
+    private static void selectMinistry() {
+        System.out.println("""
+                Seleccionar el ministerio deseado\s
+                1. Ministerio de Justicia\s
+                2. Ministerio de Sanidad\s
+                3. Ministerio de Educación\s
+                4. Ministerio de Trabajo
+                ____________________________________________""");
 
-        String chosenMinistry = keyboard.nextLine();
+        keyboard.nextLine();
         up.selectJusMin();
-
-        return chosenMinistry;
     }
 
-    private static String selectProcedure() {
-        System.out.println("Seleccionar apartado deseado " +
-                "\n1. Trámites \n2. Información \n3. Contacto\n____________________________________________");
+    private static void selectProcedure() {
+        System.out.println("""
+                Seleccionar apartado deseado\s
+                1. Trámites\s
+                2. Información\s
+                3. Contacto
+                ____________________________________________""");
 
-        String chosenProcedure = keyboard.nextLine();
+        keyboard.nextLine();
         up.selectProcedures();
-        return chosenProcedure;
     }
 
-    private static String selectCertificate() {
-        System.out.println("Seleccionar el trámite deseado " +
-                "\n1. Obtener el certificado de antecedentes penales\n___________________________________________");
+    private static void selectCertificate() {
+        System.out.println("""
+                Seleccionar el trámite deseado\s
+                1. Obtener el certificado de antecedentes penales
+                ___________________________________________""");
 
-        String chosenCertf = keyboard.nextLine();
+        keyboard.nextLine();
         up.selectCriminalReportCertf();
-        return chosenCertf;
     }
 
     private static void selectAuthMethod() {
-        System.out.println("Seleccionar el método de autenticación deseado " +
-                "\n1. Cl@ve PIN \n2. Cl@ve Permanente\n____________________________________________");
+        System.out.println("""
+                Seleccionar el método de autenticación deseado\s
+                1. Cl@ve PIN\s
+                2. Cl@ve Permanente
+                ____________________________________________""");
 
         String method = keyboard.nextLine();
         up.selectAuthMethod(Byte.parseByte(method));
     }
 
-    private static void introduceNIFandValDate() throws WrongNifFormatException, NotValidCredException, IncorrectValDateException, NifNotRegisteredException, AnyMobileRegisteredException, ConnectException, WrongMobileFormatException, WrongSmallCodeFormatException, ProceduralException {
+    private static void introduceNIFandValDate() throws WrongNifFormatException, NotValidCredException, IncorrectValDateException, NifNotRegisteredException, AnyMobileRegisteredException, ConnectException,  WrongSmallCodeFormatException, ProceduralException {
         System.out.println("Introducir el Nombre:");
         String name = keyboard.nextLine(); //Take the nif code from the user
         citizen.setName(name);
@@ -108,12 +116,12 @@ public class UnifiedPlatformExecutable {
 
     }
 
-    private static void introducePIN() throws WrongSmallCodeFormatException, NotValidPINException, DigitalSignatureException, IOException, ConnectException, ProceduralException {
+    private static void introducePIN() throws WrongSmallCodeFormatException, NotValidPINException, ConnectException, ProceduralException {
         String PINcode = keyboard.nextLine();
         up.enterPIN(new SmallCode(PINcode));
     }
 
-    private static void enterForm() throws ConnectException, WrongGoalFormatException, IncompleteFormException, IncorrectVerificationException, ProceduralException {
+    private static void enterForm() throws ConnectException, WrongGoalFormatException, IncorrectVerificationException, ProceduralException {
         System.out.println("Introduce el detalle del objetivo del certificado:");
         String goalStr = keyboard.nextLine();
 
@@ -133,7 +141,7 @@ public class UnifiedPlatformExecutable {
         System.out.println("El importe a pagar es de 15 euros");
     }
 
-    private static void realizePayment() throws NotValidPaymentDataException, InsufficientBalanceException, ConnectException {
+    private static void realizePayment() throws NotValidPaymentDataException{
         System.out.println("Introduce los datos de la tarjeta de crédito:");
         System.out.println("Número de tarjeta:");
         String cardNumb = keyboard.nextLine();
@@ -145,7 +153,7 @@ public class UnifiedPlatformExecutable {
         enterCardData(cardNumb, expDate, cvv);
     }
 
-    private static void enterCardData(String cardNumb, String expDate, String cvv) throws NotValidPaymentDataException, InsufficientBalanceException, ConnectException {
+    private static void enterCardData(String cardNumb, String expDate, String cvv) throws NotValidPaymentDataException{
         CASImpl cas = new CASImpl();
         cas.askForApproval("000000000", cardNumb, expDate, new BigDecimal(15));
     }
@@ -154,7 +162,7 @@ public class UnifiedPlatformExecutable {
         //ACTUALIZAR EL ESTADO DE LA TRANSACCIÓN
     }
 
-    private static void certificateOptions() throws DigitalSignatureException, java.net.ConnectException, WrongCrimConvictionFormatException, RepeatedCrimConvictionException {
+    private static void certificateOptions() throws WrongCrimConvictionFormatException, RepeatedCrimConvictionException {
         System.out.println("¿Desea el certificado apostillado? \n1. Sí \n2. No");
         String opcion = keyboard.nextLine();
 
