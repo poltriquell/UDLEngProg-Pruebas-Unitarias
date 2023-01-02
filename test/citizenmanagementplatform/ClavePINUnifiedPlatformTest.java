@@ -39,10 +39,7 @@ public class ClavePINUnifiedPlatformTest {
         citz.setNif(new Nif("99571829E"));
 
         platform = new UnifiedPlatform();
-        platform.registerCitizen(citz.getNif(), LocalDate.of(2020, 1, 1));
-
-        Calendar cal = Calendar.getInstance();
-        cal.set(1987, Calendar.MARCH, 24);
+        platform.registerCitizen(citz.getNif(), LocalDate.of(2025, 1, 1));
 
         citz.setValidationDate(LocalDate.now());
         platform.setAuthenticationMethod(new ClavePINCertificationAuthority(citz));
@@ -53,20 +50,20 @@ public class ClavePINUnifiedPlatformTest {
     @Test
     public void notRegisteredNIFTest() throws NifNotRegisteredException, IncorrectValDateException, AnyMobileRegisteredException, ConnectException, NotValidCredException, WrongMobileFormatException, WrongNifFormatException {
         platform.booleanDebug();
-        assertThrows(NifNotRegisteredException.class, () -> {platform.enterNIFandPINobt(new Nif("49255398R"), LocalDate.of(1999, 1, 1));});
+        assertThrows(NifNotRegisteredException.class, () -> {platform.enterNIFandPINobt(new Nif("49255398R"), LocalDate.of(2025, 1, 1));});
     }
 
     @Test
     public void notCorrectDateTest() {
         platform.booleanDebug();
-        assertThrows(NotValidCredException.class, () -> {platform.enterNIFandPINobt(citz.getNif(), LocalDate.of(2020, 3, 24));});
+        assertThrows(NotValidCredException.class, () -> {platform.enterNIFandPINobt(citz.getNif(), LocalDate.of(2025, 3, 24));});
     }
 
     @Test
     public void notValidMobileNumbTest() {
         platform.booleanDebug();
         citz.setMobileNumb(null);
-        assertThrows(NotValidCredException.class, () -> {platform.enterNIFandPINobt(citz.getNif(), LocalDate.of(2020, 1, 1));});
+        assertThrows(NotValidCredException.class, () -> {platform.enterNIFandPINobt(citz.getNif(), LocalDate.of(2025, 1, 1));});
     }
 
     // enterPIN method tests
