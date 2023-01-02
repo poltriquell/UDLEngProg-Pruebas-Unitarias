@@ -65,7 +65,7 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
     // Input events
 
     public void selectJusMin () {
-        System.out.println("Se ha hecho click en la sección  Ministerio de Justicia en el mosaico inicial.");
+        System.out.println("Se ha hecho click en la sección Ministerio de Justicia en el mosaico inicial.");
     }
 
     public void selectProcedures() {
@@ -109,9 +109,9 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
 
         //Create JUSTICE MINISTRY CLASS
         if (authMethod.checkPIN(citz.getNif(), pin)) {
-            System.out.println("El PIN introducido es correcto y se corresponde con el generado por el sistema previamente. Se indica al usuario de su vigencia.");
+            System.out.println("El PIN introducido es correcto y se corresponde con el generado por el sistema previamente. Recuerde que el PIN es válido durante 24 horas desde su generación.");
         } else {
-            throw new NotValidPINException("El PIN introducido no es correcto y no se corresponde con el generado por el sistema previamente. Se indica al usuario que podria no estar vigente.");
+            throw new NotValidPINException("El PIN introducido no es correcto y no se corresponde con el generado por el sistema previamente. Es posible que el PIN haya caducado.");
         }
         isVerifiedClavePIN = true;
     }
