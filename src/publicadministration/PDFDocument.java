@@ -9,15 +9,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.util.Date;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 public class PDFDocument {
 
-    private LocalDate creatDate;
+    private final LocalDate creatDate;
     private DocPath path;
-    private File file;
+    private final File file;
 
     private final String defaultDocPath = "C:/Program Files/PDFDirectory/document.pdf";
 

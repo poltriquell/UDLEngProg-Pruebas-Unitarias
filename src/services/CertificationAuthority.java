@@ -7,7 +7,6 @@ import publicadministration.Citizen;
 import services.exceptions.*;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class CertificationAuthority implements CertificationAuthorityInterface{
     Citizen citizen;
@@ -17,7 +16,7 @@ public class CertificationAuthority implements CertificationAuthorityInterface{
     }
 
     @Override
-    public boolean sendPIN(Nif nif, LocalDate date) throws NifNotRegisteredException, IncorrectValDateException, AnyMobileRegisteredException, ConnectException, NotValidCredException {
+    public boolean sendPIN(Nif nif, LocalDate date) throws NifNotRegisteredException, IncorrectValDateException, AnyMobileRegisteredException {
         if (!nif.equals(citizen.getNif())) {
             throw new NifNotRegisteredException("El NIF no está registrado.");
         }
@@ -40,7 +39,7 @@ public class CertificationAuthority implements CertificationAuthorityInterface{
     }
 
     @Override
-    public byte checkCredent(Nif nif, Password passw) throws NifNotRegisteredException, NotValidCredException, AnyMobileRegisteredException, ConnectException {
+    public byte checkCredent(Nif nif, Password passw) throws NifNotRegisteredException, NotValidCredException, AnyMobileRegisteredException {
         if (!nif.equals(citizen.getNif())) {
             throw new NifNotRegisteredException("El NIF no está registrado.");
         }

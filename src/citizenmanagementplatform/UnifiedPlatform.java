@@ -1,23 +1,14 @@
 package citizenmanagementplatform;
 
 import citizenmanagementplatform.exceptions.BadPathException;
-import citizenmanagementplatform.exceptions.IncompleteFormException;
-import citizenmanagementplatform.exceptions.PrintingException;
 import citizenmanagementplatform.exceptions.ProceduralException;
-import dummiescertificationauthority.ClavePINCertificationAuthority;
-import dummiescertificationauthority.ClavePermanenteCertificationAuthority;
-import exceptions.WrongNifFormatException;
 import exceptions.WrongSmallCodeFormatException;
 import publicadministration.Citizen;
 import data.*;
 import publicadministration.CreditCard;
-import publicadministration.PDFDocument;
-import publicadministration.exceptions.DigitalSignatureException;
-import publicadministration.exceptions.WrongMobileFormatException;
 import services.CertificationAuthority;
 import services.CertificationAuthorityInterface;
 import services.GPDImpl;
-import services.JusticeMinistry;
 import services.exceptions.*;
 
 import java.io.File;
@@ -28,8 +19,6 @@ import java.util.ArrayList;
 public class UnifiedPlatform implements UnifiedPlatformInterface {
     Citizen citz = new Citizen();
     CertificationAuthorityInterface authMethod;
-    Goal g;
-    private JusticeMinistry justiceMinistry;
 
     public static ArrayList<String> possibleAuthenticationMethods;
 
@@ -49,7 +38,7 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
         isVerifiedPayment = true;
     }
 
-    public UnifiedPlatform() throws WrongMobileFormatException, WrongNifFormatException, IncompleteFormException, IncorrectVerificationException, ConnectException {
+    public UnifiedPlatform() {
 
         possibleAuthenticationMethods = new ArrayList<>(); //Create the list of possible authentication methods
         setAuthenticationMethods(); // Set the possible authentication methods into the ArrayList
@@ -91,7 +80,7 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
         citz.setMobileNumb(new String("666666666")); // We set a dummy mobile number
     }
 
-    public void enterNIFandPINobt (Nif nif, LocalDate valDate) throws NifNotRegisteredException, IncorrectValDateException, AnyMobileRegisteredException, ConnectException, NotValidCredException, WrongMobileFormatException, WrongNifFormatException, ProceduralException {
+    public void enterNIFandPINobt (Nif nif, LocalDate valDate) throws NifNotRegisteredException, IncorrectValDateException, AnyMobileRegisteredException, ConnectException, NotValidCredException, ProceduralException {
         if (!procedureInCourse || !isClavePINAuthenticationMethod) {throw new ProceduralException("No se puede seguir con la obtención del certificado de antecedentes penales debido a que no se han completado ciertos pasos anteriores.");}
 
         //Como se indica en el contrato, sólo se usara el método de autenticación Cl@ve PIN
@@ -104,7 +93,7 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
         clavePINInCourse = true;
     }
 
-    public void enterPIN (SmallCode pin) throws NotValidPINException, ConnectException, IOException, DigitalSignatureException, ProceduralException {
+    public void enterPIN (SmallCode pin) throws NotValidPINException, ConnectException, ProceduralException {
         if (!procedureInCourse || !isClavePINAuthenticationMethod || !clavePINInCourse) {throw new ProceduralException("No se puede seguir con la obtención del certificado de antecedentes penales debido a que no se han completado ciertos pasos anteriores.");}
 
         //Create JUSTICE MINISTRY CLASS
@@ -116,7 +105,7 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
         isVerifiedClavePIN = true;
     }
 
-    public  void enterForm (Citizen citz, Goal goal) throws IncompleteFormException, IncorrectVerificationException, ConnectException, ProceduralException {
+    public  void enterForm (Citizen citz, Goal goal) throws IncorrectVerificationException, ConnectException, ProceduralException {
         if (!procedureInCourse || !isClavePINAuthenticationMethod || !clavePINInCourse || !isVerifiedClavePIN) {throw new ProceduralException("No se puede seguir con la obtención del certificado de antecedentes penales debido a que no se han completado ciertos pasos anteriores.");}
 
         GPDImpl gpd = new GPDImpl();
@@ -146,15 +135,15 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
         isVerifiedPayment = true;
     }
 
-    public  void enterCardData (CreditCard cardD) throws IncompleteFormException, NotValidPaymentDataException, InsufficientBalanceException, ConnectException, ProceduralException {
+    public  void enterCardData (CreditCard cardD) throws ProceduralException {
         if (!procedureInCourse || !isClavePINAuthenticationMethod || !clavePINInCourse || !isVerifiedClavePIN || !hasGPDVerifiedCitizenData) {throw new ProceduralException("No se puede seguir con la obtención del certificado de antecedentes penales debido a que no se han completado ciertos pasos anteriores.");}
     }
 
-    public void obtainCertificate () throws BadPathException, DigitalSignatureException, ConnectException, ProceduralException {
+    public void obtainCertificate () throws ProceduralException {
         if (!procedureInCourse || !isClavePINAuthenticationMethod || !clavePINInCourse || !isVerifiedClavePIN || !hasGPDVerifiedCitizenData || !isVerifiedPayment) {throw new ProceduralException("No se puede seguir con la obtención del certificado de antecedentes penales debido a que no se han completado ciertos pasos anteriores.");}
     }
 
-    public void printDocument () throws BadPathException, PrintingException {
+    public void printDocument () throws BadPathException {
         printDocument(citz.getPDFDocument().getPath());
     }
 
@@ -162,9 +151,7 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
     // Other input events (not required)
     // Other internal operations (not required)
 
-    public void registerPayment () {
-        return;
-    }
+    public void registerPayment () {System.out.println("Se ha registrado el pago del certificado de antecedentes penales.");}
     public void openDocument (DocPath path) throws BadPathException {
         try {
             citz.getPDFDocument().openDoc(path);
@@ -172,7 +159,7 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
             throw new BadPathException("El documento no se ha podido abrir debido a que el path no es correcto.");
         }
     }
-    public void printDocument (DocPath path)  throws BadPathException, PrintingException {
+    public void printDocument (DocPath path)  throws BadPathException {
         if (!new File(path.getPath()).exists()) throw new BadPathException("El documento no se ha podido imprimir debido a que el path no es correcto.");
         System.out.println("El documento se ha enviado de forma correcta para su impresión.");
     }
@@ -181,16 +168,6 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
 
     public void setAuthenticationMethod(CertificationAuthorityInterface method) {
         this.authMethod = method;
-    }
-
-    public void getCertificationAuthorityFromByte(byte opc, Citizen citizen) {
-        switch (opc) {
-            case 1 -> authMethod = new ClavePINCertificationAuthority(citizen);
-
-            case 2 -> authMethod = new ClavePermanenteCertificationAuthority(citizen);
-
-            default -> System.out.println("No se ha seleccionado ningún método de autenticación implementado, estará implementado en próximas versiones.");
-        }
     }
 
 }

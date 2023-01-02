@@ -1,5 +1,4 @@
 package data;
-import data.goalTypes;
 import exceptions.WrongGoalFormatException;
 
 final public class Goal {

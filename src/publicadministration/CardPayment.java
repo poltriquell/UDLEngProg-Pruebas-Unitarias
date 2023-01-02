@@ -2,7 +2,6 @@ package publicadministration;
 
 import data.Nif;
 import publicadministration.exceptions.WrongImportValueException;
-import publicadministration.exceptions.WrongMobileFormatException;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -10,7 +9,7 @@ import java.util.Random;
 
 public class CardPayment {
 
-    private final int REFERENCE_LENGTH = 9;
+    int REFERENCE_LENGTH = 9;
 
     private final String reference;
     private final Nif nif;

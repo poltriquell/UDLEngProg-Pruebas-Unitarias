@@ -17,7 +17,7 @@ public class ClavePINCertificationAuthority implements CertificationAuthorityInt
         this.citizen = citizen;
     }
 
-    public boolean sendPIN(Nif nif, LocalDate date) throws NifNotRegisteredException, IncorrectValDateException, AnyMobileRegisteredException, ConnectException, NotValidCredException {
+    public boolean sendPIN(Nif nif, LocalDate date) throws NifNotRegisteredException, AnyMobileRegisteredException, NotValidCredException {
 
         if (!nif.equals(citizen.getNif())) {
             throw new NifNotRegisteredException("El NIF no está registrado.");
@@ -32,14 +32,14 @@ public class ClavePINCertificationAuthority implements CertificationAuthorityInt
 
     }
 
-    public boolean checkPIN(Nif nif, SmallCode pin) throws NotValidPINException, ConnectException {
+    public boolean checkPIN(Nif nif, SmallCode pin) throws NotValidPINException {
         if (!pin.equals(citizen.getPIN()))
             throw new NotValidPINException("PIN incorrecto");
 
         return true;
     }
 
-    public byte checkCredent(Nif nif, Password passw) throws NifNotRegisteredException, NotValidCredException, AnyMobileRegisteredException, ConnectException {
+    public byte checkCredent(Nif nif, Password passw) {
         return 0;
     }
 

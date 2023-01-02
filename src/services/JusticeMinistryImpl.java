@@ -6,14 +6,11 @@ import publicadministration.Citizen;
 import publicadministration.CrimConviction;
 import publicadministration.CrimConvictionsColl;
 import publicadministration.CriminalRecordCertf;
-import publicadministration.exceptions.DigitalSignatureException;
 import publicadministration.exceptions.RepeatedCrimConvictionException;
 import publicadministration.exceptions.WrongCrimConvictionFormatException;
 
 import java.time.LocalDate;
 import java.util.Random;
-
-import java.net.ConnectException;
 
 public class JusticeMinistryImpl implements JusticeMinistry {
 

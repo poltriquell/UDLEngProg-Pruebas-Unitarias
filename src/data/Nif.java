@@ -38,7 +38,6 @@ final public class Nif {
 
     private boolean correctNIF(String code) { //Check if the NIF is in the correct format, not checking NIE
         char[] nif = code.toCharArray();
-        int sum = 0;
 
         for (int i = 0; i < 8; i++) {
             if (!Character.isDigit(nif[i])) return false;

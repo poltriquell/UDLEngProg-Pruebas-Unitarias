@@ -11,7 +11,7 @@ public class Citizen {
 
     private Nif nif;
     private String name;
-    private String address;
+    private final String address;
     private String mobileNumb;
     private LocalDate validationDate;
     private SmallCode PIN;
