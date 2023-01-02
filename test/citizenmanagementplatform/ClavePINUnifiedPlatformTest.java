@@ -76,22 +76,4 @@ public class ClavePINUnifiedPlatformTest {
         platform.booleanDebug();
         assertThrows(NotValidPINException.class, () -> {platform.enterPIN(new SmallCode("222"));});
     }
-
-    /*@Test
-    public void getCriminalRecordCertf() {
-        citizen.setAffiliated(false);
-        unifiedPlatform.setReportType(CertificationReport.LABORAL_LIFE_DOC);
-        assertThrows(
-                NotAffiliatedException.class,
-                () -> {
-                    unifiedPlatform.enterPIN(correctPin);
-                });
-    }*/
-
-    /*@Test
-    public void selectAuthenticationMethod() {
-        platform.selectAuthMethod(AuthenticationMethod.CLAVE_PIN.getByte());
-        assertEquals(AuthenticationMethod.CLAVE_PIN, platform.getCertificationAuthorityFromByte());
-        assertEquals("Showing authentication form\n", outContent.toString());
-    }*/
 }
