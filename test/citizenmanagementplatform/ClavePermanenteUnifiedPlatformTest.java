@@ -1,6 +1,5 @@
 package citizenmanagementplatform;
 
-import citizenmanagementplatform.exceptions.IncompleteFormException;
 import data.Nif;
 import data.SmallCode;
 import dummiescertificationauthority.ClavePINCertificationAuthority;
@@ -21,7 +20,7 @@ public class ClavePermanenteUnifiedPlatformTest {
     UnifiedPlatform platform;
 
     @BeforeEach
-    public void setUp() throws WrongMobileFormatException, WrongNifFormatException, IncompleteFormException, IncorrectVerificationException, ConnectException {
+    public void setUp() throws WrongMobileFormatException, WrongNifFormatException {
 
         citz = new Citizen("Jake Peralta", "Calle Hispanidad 12", "612101210");
         citz.setNif(new Nif("99571829E"));
