@@ -8,20 +8,20 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Date;
+import java.time.LocalDate;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 public class PDFDocument {
 
-    private Date creatDate;
+    private final LocalDate creatDate;
     private DocPath path;
-    private File file;
+    private final File file;
 
     private final String defaultDocPath = "C:/Program Files/PDFDirectory/document.pdf";
 
     public PDFDocument() {
-        this.creatDate = new Date();
+        this.creatDate = LocalDate.now();
         this.path = new DocPath(defaultDocPath);
         this.file = new File(this.path.getPath());
     }
@@ -50,7 +50,7 @@ public class PDFDocument {
         Desktop.getDesktop().open(file);
     }
 
-    public Date getCreatDate() {
+    public LocalDate getCreatDate() {
         return creatDate;
     }
 

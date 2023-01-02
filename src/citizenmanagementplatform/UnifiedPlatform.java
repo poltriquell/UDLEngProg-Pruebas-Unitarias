@@ -1,42 +1,47 @@
-/*
 package citizenmanagementplatform;
 
 import citizenmanagementplatform.exceptions.BadPathException;
-import citizenmanagementplatform.exceptions.IncompleteFormException;
-import citizenmanagementplatform.exceptions.PrintingException;
-import dummiescertificationauthority.ClavePINCertificationAuthority;
-import dummiescertificationauthority.ClavePermanenteCertificationAuthority;
-import exceptions.WrongNifFormatException;
+import citizenmanagementplatform.exceptions.ProceduralException;
+import exceptions.WrongSmallCodeFormatException;
 import publicadministration.Citizen;
 import data.*;
 import publicadministration.CreditCard;
-import publicadministration.PDFDocument;
-import publicadministration.exceptions.DigitalSignatureException;
-import publicadministration.exceptions.WrongMobileFormatException;
+import services.CertificationAuthority;
 import services.CertificationAuthorityInterface;
-import services.JusticeMinistry;
+import services.GPDImpl;
 import services.exceptions.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class UnifiedPlatform implements UnifiedPlatformInterface {
-    Citizen citz;
+    Citizen citz = new Citizen();
     CertificationAuthorityInterface authMethod;
-    Goal g;
-    public JusticeMinistry justiceMinistry;
 
     public static ArrayList<String> possibleAuthenticationMethods;
 
-    public UnifiedPlatform() throws WrongMobileFormatException, WrongNifFormatException, IncompleteFormException, IncorrectVerificationException, ConnectException {
+    boolean procedureInCourse = false;
+    boolean isClavePINAuthenticationMethod = false;
+    boolean clavePINInCourse = false;
+    boolean isVerifiedClavePIN = false;
+    boolean hasGPDVerifiedCitizenData = false;
+    boolean isVerifiedPayment = false;
 
-        this.possibleAuthenticationMethods = new ArrayList<>(); //Create the list of possible authentication methods
+    public void booleanDebug() {
+        procedureInCourse = true;
+        isClavePINAuthenticationMethod = true;
+        clavePINInCourse = true;
+        isVerifiedClavePIN = true;
+        hasGPDVerifiedCitizenData = true;
+        isVerifiedPayment = true;
+    }
+
+    public UnifiedPlatform() {
+
+        possibleAuthenticationMethods = new ArrayList<>(); //Create the list of possible authentication methods
         setAuthenticationMethods(); // Set the possible authentication methods into the ArrayList
-        selectAuthMethod((byte) 1); // Select the authentication method to use (1 = Clave Pin) (2 = Clave Permanente)
-
-        enterForm(this.citz, g); // Enter the form with the citizen and the goal
 
     }
 
@@ -47,49 +52,66 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
     }
 
     // Input events
+
     public void selectJusMin () {
-        System.out.println("Se ha hecho click en la sección  Ministerio de Justicia en el mosaico inicial.");
+        System.out.println("Se ha hecho click en la sección Ministerio de Justicia en el mosaico inicial.");
     }
-    public void selectProcedures () {
+
+    public void selectProcedures() {
         System.out.println("Se ha hecho click en el enlace \"Trámites\" de la sección de la SS.");
+        procedureInCourse = true;
     }
+
     public void selectCriminalReportCertf () {
         System.out.println("Se ha seleccionado el trámite \"Obtener el certificado de antecedentes penales\".");
     }
+
     public void selectAuthMethod (byte opc) {
         // Assuming that Authentication methods are stored in the same order as they are displayed to the user in the GUI
-        System.out.println("Se ha seleccionado el metodo :" + opc + " " + possibleAuthenticationMethods.get(opc-1));
         String selectedAuthenticationMethod = possibleAuthenticationMethods.get(opc - 1);
         System.out.println("Se ha seleccionado el siguiente método de autenticación : " + selectedAuthenticationMethod);
+        if (selectedAuthenticationMethod.equals("Cl@ve PIN")) {isClavePINAuthenticationMethod = true;}
     }
 
-    public void enterNIFandPINobt (Nif nif, Date valDate) throws NifNotRegisteredException, IncorrectValDateException, AnyMobileRegisteredException, ConnectException, NotValidCredException {
+    public void registerCitizen(Nif nif, LocalDate valDate) {
+        authMethod = new CertificationAuthority(citz);
         citz.setNif(nif);
         citz.setValidationDate(valDate);
-        // Assuming auth method is Cl@ve PIN
+        citz.setMobileNumb("666666666"); // We set a dummy mobile number
+    }
+
+    public void enterNIFandPINobt (Nif nif, LocalDate valDate) throws NifNotRegisteredException, IncorrectValDateException, AnyMobileRegisteredException, ConnectException, NotValidCredException, ProceduralException {
+        if (!procedureInCourse || !isClavePINAuthenticationMethod) {throw new ProceduralException("No se puede seguir con la obtención del certificado de antecedentes penales debido a que no se han completado ciertos pasos anteriores.");}
+
+        //Como se indica en el contrato, sólo se usara el método de autenticación Cl@ve PIN
         if (authMethod.sendPIN(nif, valDate)) {
-            System.out.println("Se envia el PIN al usuario con DNI -> " + nif.getNif());
+            nif = citz.getNif();
+            System.out.println("Se envia el PIN al usuario con DNI -> " + nif);
         } else {
             throw new ConnectException("Ha ocurrido un error al enviar el PIN al número de teléfono móvil correspondiente.");
         }
+        clavePINInCourse = true;
     }
-    public void enterPIN (SmallCode pin) throws NotValidPINException, ConnectException, IOException, DigitalSignatureException {
-        if (authMethod.checkPIN(citz.getNif(), pin)) {
-            System.out.println("El PIN introducido es correcto y se corresponde con el generado por el sistema previamente. Se indica al usuario de su vigencia.");
-            if (justiceMinistry != null) {
-                PDFDocument pdf = justiceMinistry.getCriminalRecordCertf(citz, g);
-                citz.setPDFDocument(pdf);
-                pdf.openDoc(pdf.getPath());
-                System.out.println("Se procede a mostrar el certificado de antecedentes penales.");
-            } else {
-                System.out.println("No se ha seleccionado ningún ministerio de justicia.");
-            }
-        } else {
-            throw new NotValidPINException("El PIN introducido no es correcto y no se corresponde con el generado por el sistema previamente. Se indica al usuario que podria no estar vigente.");
-        }
-    }
-    public  void enterForm (Citizen citz, Goal goal) throws IncompleteFormException, IncorrectVerificationException, ConnectException {
 
+    public void enterPIN (SmallCode pin) throws NotValidPINException, ConnectException, ProceduralException {
+        if (!procedureInCourse || !isClavePINAuthenticationMethod || !clavePINInCourse) {throw new ProceduralException("No se puede seguir con la obtención del certificado de antecedentes penales debido a que no se han completado ciertos pasos anteriores.");}
+
+        //Create JUSTICE MINISTRY CLASS
+        if (authMethod.checkPIN(citz.getNif(), pin)) {
+            System.out.println("El PIN introducido es correcto y se corresponde con el generado por el sistema previamente. Recuerde que el PIN es válido durante 24 horas desde su generación.");
+        } else {
+            throw new NotValidPINException("El PIN introducido no es correcto y no se corresponde con el generado por el sistema previamente. Es posible que el PIN haya caducado.");
+        }
+        isVerifiedClavePIN = true;
+    }
+
+    public  void enterForm (Citizen citz, Goal goal) throws IncorrectVerificationException, ConnectException, ProceduralException {
+        if (!procedureInCourse || !isClavePINAuthenticationMethod || !clavePINInCourse || !isVerifiedClavePIN) {throw new ProceduralException("No se puede seguir con la obtención del certificado de antecedentes penales debido a que no se han completado ciertos pasos anteriores.");}
+
+        GPDImpl gpd = new GPDImpl();
+        gpd.verifyData(citz, goal);
+
+        hasGPDVerifiedCitizenData = true;
     }
 
     public void enterCred (Nif nif, Password passw) throws NifNotRegisteredException, NotValidCredException, AnyMobileRegisteredException, ConnectException {
@@ -103,17 +125,25 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
         }
     }
 
+    public String associatePIN() throws WrongSmallCodeFormatException {
+        String pin = SmallCode.generateSmallCode();
+        citz.setPIN(new SmallCode(pin));
+        return pin;
+    }
+
     public  void realizePayment () {
-
-    }
-    public  void enterCardData (CreditCard cardD) throws IncompleteFormException, NotValidPaymentDataException, InsufficientBalanceException, ConnectException {
-
-    }
-    public void obtainCertificate () throws BadPathException, DigitalSignatureException, ConnectException {
-
+        isVerifiedPayment = true;
     }
 
-    public void printDocument () throws BadPathException, PrintingException {
+    public  void enterCardData (CreditCard cardD) throws ProceduralException {
+        if (!procedureInCourse || !isClavePINAuthenticationMethod || !clavePINInCourse || !isVerifiedClavePIN || !hasGPDVerifiedCitizenData) {throw new ProceduralException("No se puede seguir con la obtención del certificado de antecedentes penales debido a que no se han completado ciertos pasos anteriores.");}
+    }
+
+    public void obtainCertificate () throws ProceduralException {
+        if (!procedureInCourse || !isClavePINAuthenticationMethod || !clavePINInCourse || !isVerifiedClavePIN || !hasGPDVerifiedCitizenData || !isVerifiedPayment) {throw new ProceduralException("No se puede seguir con la obtención del certificado de antecedentes penales debido a que no se han completado ciertos pasos anteriores.");}
+    }
+
+    public void printDocument () throws BadPathException {
         printDocument(citz.getPDFDocument().getPath());
     }
 
@@ -121,9 +151,7 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
     // Other input events (not required)
     // Other internal operations (not required)
 
-    public void registerPayment () {
-
-    }
+    public void registerPayment () {System.out.println("Se ha registrado el pago del certificado de antecedentes penales.");}
     public void openDocument (DocPath path) throws BadPathException {
         try {
             citz.getPDFDocument().openDoc(path);
@@ -131,38 +159,15 @@ public class UnifiedPlatform implements UnifiedPlatformInterface {
             throw new BadPathException("El documento no se ha podido abrir debido a que el path no es correcto.");
         }
     }
-    public void printDocument (DocPath path)  throws BadPathException, PrintingException {
+    public void printDocument (DocPath path)  throws BadPathException {
         if (!new File(path.getPath()).exists()) throw new BadPathException("El documento no se ha podido imprimir debido a que el path no es correcto.");
         System.out.println("El documento se ha enviado de forma correcta para su impresión.");
     }
 
     // Some other useful methods (not required).
 
-    public void getCertfAuthFromByte(byte opc, Citizen citizen) {
-        switch (opc) {
-            case 1 -> authMethod = new ClavePINCertificationAuthority(citizen);
-
-            case 2 -> authMethod = new ClavePermanenteCertificationAuthority(citizen);
-
-            default -> System.out.println("No se ha seleccionado ningún método de autenticación implementado, estará implementado en próximas versiones.");
-        }
+    public void setAuthenticationMethod(CertificationAuthorityInterface method) {
+        this.authMethod = method;
     }
 
-    public static void main(String[] args) {
-        byte opc = 1;
-        possibleAuthenticationMethods = new ArrayList<>();
-
-        possibleAuthenticationMethods.add("Cl@ve PIN");
-        possibleAuthenticationMethods.add("Cl@ve Permanente");
-
-        System.out.println("Se ha seleccionado el metodo :" + possibleAuthenticationMethods.get(opc - 1));
-        String selectedAuthenticationMethod = possibleAuthenticationMethods.get(opc - 1);
-        System.out.println("Se ha seleccionado el siguiente método de autenticación : " + selectedAuthenticationMethod);
-
-        opc = 2;
-        System.out.println("Se ha seleccionado el metodo :" + opc + " " + possibleAuthenticationMethods.get(opc-1));
-        selectedAuthenticationMethod = possibleAuthenticationMethods.get(opc - 1);
-        System.out.println("Se ha seleccionado el siguiente método de autenticación : " + selectedAuthenticationMethod);
-    }
 }
-*/

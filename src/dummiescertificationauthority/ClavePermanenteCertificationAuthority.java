@@ -7,7 +7,7 @@ import publicadministration.Citizen;
 import services.CertificationAuthorityInterface;
 import services.exceptions.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class ClavePermanenteCertificationAuthority implements CertificationAuthorityInterface {
 
@@ -18,11 +18,11 @@ public class ClavePermanenteCertificationAuthority implements CertificationAutho
     }
 
 
-    public boolean sendPIN(Nif nif, Date date) throws NifNotRegisteredException, IncorrectValDateException, AnyMobileRegisteredException, ConnectException {
+    public boolean sendPIN(Nif nif, LocalDate date) {
         return false;
     }
 
-    public boolean checkPIN(Nif nif, SmallCode pin) throws NotValidPINException, ConnectException {
+    public boolean checkPIN(Nif nif, SmallCode pin) throws NotValidPINException {
         if (!pin.equals(citizen.getPIN())) {
             throw new NotValidPINException("El PIN introducido no es correcto.");
         }
@@ -30,7 +30,7 @@ public class ClavePermanenteCertificationAuthority implements CertificationAutho
         return true;
     }
 
-    public byte checkCredent(Nif nif, Password passw) throws NifNotRegisteredException, NotValidCredException, AnyMobileRegisteredException, ConnectException {
+    public byte checkCredent(Nif nif, Password passw) throws NifNotRegisteredException, NotValidCredException, AnyMobileRegisteredException {
         if (!nif.equals(citizen.getNif())) {
             throw new NifNotRegisteredException("El NIF no está registrado.");
         }

@@ -6,11 +6,11 @@ import data.Nif;
 
 public class CriminalRecordCertf extends PDFDocument {
 
-    private Nif nif;
-    private String name;
-    private Goal goal;
-    private DigitalSignature digSign;
-    private CrimConvictionsColl crimConvs;
+    private final Nif nif;
+    private final String name;
+    private final Goal goal;
+    private final DigitalSignature digSign;
+    private final CrimConvictionsColl crimConvs;
 
     public CriminalRecordCertf(Nif nif, String name, Goal g, DigitalSignature ds, CrimConvictionsColl crmC) {
         checkCriminalRecordCertf(nif, name, g, ds, crmC);
@@ -72,4 +72,17 @@ public class CriminalRecordCertf extends PDFDocument {
     public CrimConvictionsColl getCrimConvs() {
         return crimConvs;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder("CERTIFICADO DE ANTECEDENTES PENALES: ");
+        stringBuilder.append(nif.toString()).append("\n");
+        stringBuilder.append(name).append("\n");
+        stringBuilder.append(goal.toString()).append("\n");
+        stringBuilder.append(digSign.toString()).append("\n");
+        stringBuilder.append(crimConvs.toString()).append("\n");
+        
+        return stringBuilder.toString();
+    }
+
 }

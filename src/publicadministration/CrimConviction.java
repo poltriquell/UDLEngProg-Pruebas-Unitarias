@@ -3,14 +3,12 @@ package publicadministration;
 import publicadministration.exceptions.WrongCrimConvictionFormatException;
 
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
 
 public class CrimConviction {
 
-    private LocalDate commitDate;
-    private String offense;
-    private String sentence;
+    private final LocalDate commitDate;
+    private final String offense;
+    private final String sentence;
 
     public CrimConviction(LocalDate commit, String off, String sentc) throws WrongCrimConvictionFormatException {
         checkCrimConviction(commit, off, sentc);

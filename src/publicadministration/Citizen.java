@@ -1,20 +1,19 @@
 package publicadministration;
 
 import data.Nif;
-import data.Password;
 import data.SmallCode;
 import exceptions.WrongNifFormatException;
 import publicadministration.exceptions.WrongMobileFormatException;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Citizen {
 
     private Nif nif;
     private String name;
-    private String address;
+    private final String address;
     private String mobileNumb;
-    private Date validationDate;
+    private LocalDate validationDate;
     private SmallCode PIN;
 
     private PDFDocument document;
@@ -25,6 +24,20 @@ public class Citizen {
         this.name = name;
         this.address = address;
         this.mobileNumb = mobile;
+    }
+
+    public Citizen(String name,Nif nif, String address, String mobile) throws WrongMobileFormatException, WrongNifFormatException { //Constructor para el caso de que el usuario ya tenga un NIF, arreglado después del mensade del CV
+        checkValidCitizen(name, address, mobile);
+        this.nif = nif;
+        this.name = name;
+        this.address = address;
+        this.mobileNumb = mobile;
+    }
+    public Citizen(){
+        this.nif = null;
+        this.name = null;
+        this.address = null;
+        this.mobileNumb = null;
     }
 
     private void checkValidCitizen(String name, String add, String mobile) throws WrongMobileFormatException {
@@ -51,16 +64,33 @@ public class Citizen {
         return false;
     }
 
+    private void checkValidDate(LocalDate date) {
+        if(date == null) throw new NullPointerException("La fecha de validez no puede ser nula.");
+        if(date.isBefore(LocalDate.now())) throw new IllegalArgumentException("La fecha de validez no puede ser anterior a la fecha actual.");
+    }
+
     public void setNif(Nif nif) {
         this.nif = nif;
+    }
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setPDFDocument(PDFDocument document) {
         this.document = document;
     }
 
-    public void setValidationDate(Date validationDate) {
+    public void setValidationDate(LocalDate validationDate) {
+        checkValidDate(validationDate);
         this.validationDate = validationDate;
+    }
+
+    public void setPIN(SmallCode PIN) {
+        this.PIN = PIN;
+    }
+
+    public void setMobileNumb(String mobileNumb) {
+        this.mobileNumb = mobileNumb;
     }
 
     public Nif getNif() {return nif;}
@@ -85,7 +115,7 @@ public class Citizen {
         return PIN;
     }
 
-    public Date getValDate() {
+    public LocalDate getValDate() {
         return this.validationDate;
     }
 
@@ -98,6 +128,7 @@ public class Citizen {
         return "Citizen{ nif= " + nif + " name= " + name + " address= " + address + " mobileNumb= " + mobileNumb + "}";
     }
 
-
-
+    public LocalDate getValidationDate() {
+        return validationDate;
+    }
 }
