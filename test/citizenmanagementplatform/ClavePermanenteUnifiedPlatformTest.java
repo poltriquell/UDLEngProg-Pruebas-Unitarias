@@ -1,5 +1,6 @@
 package citizenmanagementplatform;
 
+import citizenmanagementplatform.exceptions.IncompleteFormException;
 import data.Nif;
 import data.SmallCode;
 import dummiescertificationauthority.ClavePINCertificationAuthority;
@@ -12,16 +13,15 @@ import services.exceptions.*;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class ClavePINUnifiedPlatformTest {
-
+public class ClavePermanenteUnifiedPlatformTest {
     Citizen citz;
 
     UnifiedPlatform platform;
 
     @BeforeEach
-    public void setUp() throws WrongMobileFormatException, WrongNifFormatException {
+    public void setUp() throws WrongMobileFormatException, WrongNifFormatException, IncompleteFormException, IncorrectVerificationException, ConnectException {
 
         citz = new Citizen("Jake Peralta", "Calle Hispanidad 12", "612101210");
         citz.setNif(new Nif("99571829E"));
