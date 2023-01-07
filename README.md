@@ -10,7 +10,7 @@ Los [Tests](/test) se encuentran en su carpeta de Test correspondiente.
 
 ## Autores ✒️
 
-_Queremos hacer especial mención a todos aquellos que nos han ayudado a tirar el proyect adelante desde sus inicios_
+_Queremos hacer especial mención a todos aquellos que nos han ayudado a tirar el proyecto adelante desde sus inicios_
 
 * **Alexandru Cristian Stoia** - *Trabajo Inicial e Implementación del Proyecto* - [Aleex0309](https://github.com/aleex0309)
 * **Enric Tobeña Casanovas** - *Trabajo Inicial e Implementación del Proyecto* - [Enric-Tobena](https://github.com/Enric-Tobena)
